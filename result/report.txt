@@ -28,6 +28,6 @@ enterodiol, xylose, acesulfame, salicylate, thiamin (Vitamin B1), N6,N6,N6-trime
 Selected Features (SHAP Importance):
 enterodiol, xylose, N6,N6,N6-trimethyllysine, acesulfame, salicylate, thiamin (Vitamin B1), oleoyl-oleoyl-glycerol (18:1/18:1)  [1]*, 1-methyladenine, homocitrulline, 2-keto-3-deoxy-gluconate, N-delta-acetylornithine, 1-linolenoylglycerol (18:3), gamma-glutamylleucine, oleoyl-oleoyl-glycerol (18:1/18:1) [2]*, mannitol/sorbitol, maltose, apigenin, 1-palmitoyl-GPS (16:0)*, lysylleucine, N-palmitoyl-sphinganine (d18:0/16:0)
 
-SHAP summary plot saved as 'C:\Users\snorl\Desktop\FYP\result\shap_summary.png'.
+SHAP summary plot saved as '../../../result/shap_summary.png'.
 
-Causal graph saved as 'C:\Users\snorl\Desktop\FYP\result\causal_graph.png'.
+Causal graph saved as '../../../result/causal_graph.png'.
