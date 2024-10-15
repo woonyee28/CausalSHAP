@@ -10,11 +10,12 @@ import random
 from math import factorial
 
 class CausalInference:
-    def __init__(self, data, model):
+    def __init__(self, data, model, target_variable):
         self.data = data  # pandas DataFrame
         self.graph = None
         self.model = model  # Trained machine learning model
         self.gamma = None  # Dictionary to hold normalized causal strengths gamma_i
+        self.target_variable = target_variable  # Name of the target variable
 
     def run_pc_algorithm(self, alpha=0.05):
         data_np = self.data.to_numpy()
@@ -27,32 +28,68 @@ class CausalInference:
         pyd.write_png(file_path)
 
     def load_causal_strengths(self, json_file_path):
-        # Load beta_i from JSON file
+        """
+        Load causal strengths (beta_i) from JSON file and compute gamma_i.
+
+        Parameters:
+        - json_file_path: Path to the JSON file containing causal effects.
+
+        The JSON file is expected to be a list of dictionaries with keys 'Pair' and 'Mean_Causal_Effect'.
+        """
+        # Load causal effects from JSON file
         with open(json_file_path, 'r') as f:
-            beta_dict = json.load(f)
-        # beta_dict should be a dictionary with feature names as keys and beta_i values as values
+            causal_effects_list = json.load(f)
+        
+        # Build the causal graph
+        G = nx.DiGraph()
+        for item in causal_effects_list:
+            pair = item['Pair']
+            mean_causal_effect = item['Mean_Causal_Effect']
+            if mean_causal_effect is None:
+                continue  # Skip if causal effect is None
+            # Split the pair into source and target
+            source, target = pair.split('->')
+            source = source.strip()
+            target = target.strip()
+            # Add edge to the graph with the causal effect as weight
+            G.add_edge(source, target, weight=mean_causal_effect)
+
+        # Now, compute the total causal effect from each feature to the target variable
+        features = self.data.columns.tolist()
+        beta_dict = {}
+        for feature in features:
+            if feature == self.target_variable:
+                continue
+            # Find all paths from feature to target_variable
+            try:
+                paths = list(nx.all_simple_paths(G, source=feature, target=self.target_variable))
+            except nx.NetworkXNoPath:
+                continue  # No path from this feature to target variable
+            total_effect = 0
+            for path in paths:
+                # Compute the product of the edge weights along the path
+                effect = 1
+                for i in range(len(path)-1):
+                    edge_weight = G[path[i]][path[i+1]]['weight']
+                    effect *= edge_weight
+                total_effect += effect
+            if total_effect != 0:
+                beta_dict[feature] = total_effect
+
         # Compute gamma_i = |beta_i| / sum_j |beta_j|
         total_causal_effect = sum(abs(beta) for beta in beta_dict.values())
         if total_causal_effect == 0:
             # Avoid division by zero
-            self.gamma = {k: 0.0 for k in beta_dict.keys()}
+            self.gamma = {k: 0.0 for k in features}
         else:
-            self.gamma = {k: abs(beta) / total_causal_effect for k, beta in beta_dict.items()}
+            self.gamma = {k: abs(beta_dict.get(k, 0.0)) / total_causal_effect for k in features}
         return self.gamma
 
     def compute_v_do(self, S, x_S, num_samples=100):
         """
         Compute v(S) = E[f(X) | do(X_S = x_S)]
-        Parameters:
-        - S: list of feature names in the subset S
-        - x_S: Series or dict of feature values for features in S
-        - num_samples: number of samples to use in Monte Carlo approximation
-        Returns:
-        - v_S: Expected model output under intervention do(X_S = x_S)
         """
-        # Simulate data under intervention do(X_S = x_S)
-        # For simplicity, sample features not in S independently
-        intervened_data = pd.DataFrame(columns=self.data.columns)
+        samples = []
         for _ in range(num_samples):
             sample = {}
             for feature in self.data.columns:
@@ -61,12 +98,14 @@ class CausalInference:
                 else:
                     # Sample from the marginal distribution of the feature
                     sample[feature] = self.data[feature].sample(1).iloc[0]
-            intervened_data = intervened_data.append(sample, ignore_index=True)
+            samples.append(sample)
+        intervened_data = pd.DataFrame(samples)
         # Predict using the model
         predictions = self.model.predict(intervened_data)
         # Compute the expectation
         v_S = np.mean(predictions)
         return v_S
+
 
     def compute_modified_shap(self, x, num_samples=100, shap_num_samples=100):
         """
