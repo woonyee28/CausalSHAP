@@ -18,6 +18,7 @@ class CausalInference:
         self.gamma = None  # Dictionary to hold normalized causal strengths gamma_i
         self.target_variable = target_variable  # Name of the target variable
         self.ida_graph = None
+        self.regression_models = {} 
 
     def run_pc_algorithm(self, alpha=0.05):
         data_np = self.data.to_numpy()
@@ -39,6 +40,12 @@ class CausalInference:
         
         # Build the causal graph
         G = nx.DiGraph()
+
+        # Step 1: Add all nodes (features) from self.data columns
+        nodes = list(self.data.columns)
+        G.add_nodes_from(nodes)
+
+        # Step 2: Add edges based on the causal effects from the JSON file
         for item in causal_effects_list:
             pair = item['Pair']
             mean_causal_effect = item['Mean_Causal_Effect']
@@ -51,6 +58,7 @@ class CausalInference:
             # Add edge to the graph with the causal effect as weight
             G.add_edge(source, target, weight=mean_causal_effect)
 
+        # Save the graph with all nodes and edges
         self.ida_graph = G.copy()
 
         # Now, compute the total causal effect from each feature to the target variable
@@ -115,37 +123,51 @@ class CausalInference:
         """
         return self.data[feature].sample(1).iloc[0]
 
-    def sample_conditional(self, feature, parent_values, S):
+    def sample_conditional(self, feature, parent_values):
         """
-        Sample a value for a feature conditioned on its parent features.
+        Sample a value for a feature conditioned on its parent features using precomputed regression model.
         """
-        # Effective parents are those not in S and not the target variable
-        effective_parents = [p for p in self.get_parents(feature) if p not in S and p != self.target_variable]
-        if not effective_parents:
+        # Use all parents except the target variable
+        all_parents = [p for p in self.get_parents(feature) if p != self.target_variable]
+        
+        if not all_parents:
             return self.sample_marginal(feature)
 
-        # Fit a regression model for this feature given its effective parents
-        X = self.data[effective_parents]
-        y = self.data[feature]
-        reg = LinearRegression()
-        reg.fit(X, y)
+        # Create a unique key for the feature and its parents
+        model_key = (feature, tuple(sorted(all_parents)))
+
+        # Check if a precomputed regression model exists
+        if model_key not in self.regression_models:
+            # Fit a regression model for this feature given its parents
+            X = self.data[all_parents].values
+            y = self.data[feature].values
+            reg = LinearRegression()
+            reg.fit(X, y)
+
+            # Estimate the standard deviation from residuals
+            residuals = y - reg.predict(X)
+            std = residuals.std()
+
+            # Store the regression model and std in the dictionary
+            self.regression_models[model_key] = (reg, std)
+
+        # Use the precomputed regression model and std
+        reg, std = self.regression_models[model_key]
 
         # Prepare parent values for prediction
-        parent_df = pd.DataFrame([parent_values])
-        mean = reg.predict(parent_df)[0]
-
-        # Estimate the standard deviation from residuals
-        residuals = y - reg.predict(X)
-        std = residuals.std()
+        parent_values_array = np.array([parent_values[parent] for parent in all_parents]).reshape(1, -1)
+        mean = reg.predict(parent_values_array)[0]
 
         # Sample from a normal distribution centered at the predicted mean
         sampled_value = np.random.normal(mean, std)
         return sampled_value
 
 
-    def compute_v_do(self, S, x_S, num_samples=100):
+    def compute_v_do(self, S, x_S, num_samples=50, class_index=1):
         samples = []
-        # Determine the topological order of variables after intervention
+        # Get all features excluding the target variable
+        all_features = [col for col in self.data.columns if col != self.target_variable]
+        # Determine the topological order, including all features
         variables_order = self.get_topological_order(S)
         for _ in range(num_samples):
             sample = {}
@@ -157,33 +179,36 @@ class CausalInference:
                 if feature in S or feature == self.target_variable:
                     continue  # Skip intervened features and the target variable
                 parents = self.get_parents(feature)
-                # Exclude parents that are in S or are the target variable
-                effective_parents = [p for p in parents if p not in S and p != self.target_variable]
-                if not effective_parents:
-                    # Sample from marginal distribution
+                parents = [p for p in parents if p != self.target_variable]
+                parent_values = {}
+                for parent in parents:
+                    if parent in S:
+                        parent_values[parent] = x_S[parent]
+                    else:
+                        parent_values[parent] = sample[parent]
+                if not parent_values:
                     sample[feature] = self.sample_marginal(feature)
                 else:
-                    # Prepare parent values
-                    parent_values = {parent: sample[parent] for parent in effective_parents}
-                    # Sample conditionally
-                    sample[feature] = self.sample_conditional(feature, parent_values, S)
+                    sample[feature] = self.sample_conditional(feature, parent_values)
+            # Assign values to features not included in the causal graph
+            for feature in all_features:
+                if feature not in sample and feature not in S:
+                    # Sample from marginal distribution
+                    sample[feature] = self.sample_marginal(feature)
+            # Collect the sample
             samples.append(sample)
+        # Convert samples to DataFrame
         intervened_data = pd.DataFrame(samples)
-        # Ensure all features are present
-        features_in_order = list(self.model.feature_names_in_)
-        for feature in features_in_order:
-            if feature not in intervened_data.columns:
-                # Fill missing features with mean values
-                intervened_data[feature] = self.data[feature].mean()
         # Reorder columns to match training data
-        intervened_data = intervened_data[features_in_order]
+        intervened_data = intervened_data[self.model.feature_names_in_]
+        # Get predictions
         predictions = self.model.predict(intervened_data)
         v_S = np.mean(predictions)
         return v_S
 
 
 
-    def compute_modified_shap(self, x, num_samples=100, shap_num_samples=100):
+    def compute_modified_shap(self, x, num_samples=50, shap_num_samples=50):
         # Exclude the target variable from the features list
         features = [col for col in self.data.columns if col != self.target_variable]
         n_features = len(features)
@@ -198,9 +223,6 @@ class CausalInference:
         # Precompute f(x)
         x_ordered = x[self.model.feature_names_in_]
         f_x = self.model.predict(x_ordered.to_frame().T)[0]
-
-        # ... rest of your code ...
-
 
         # Monte Carlo approximation for Shapley values
         for _ in range(shap_num_samples):
