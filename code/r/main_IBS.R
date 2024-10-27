@@ -4,11 +4,9 @@ library(pcalg)
 library(igraph)
 
 # Load the dataset
-dataset <- read_excel("C:/Users/snorl/Desktop/FYP/dataset/data_full.xlsx")
+dataset <- read_excel("C:/Users/snorl/Desktop/FYP/dataset/data_full_predicted_probabilities.xlsx")
 
 # Correct Group encoding
-Group_numeric <- as.numeric(as.factor(dataset$Group))
-dataset$Group_numeric <- Group_numeric
 
 # Specify columns for X (features)
 X_columns <- c('xylose', 'xanthosine', 'valylglutamine', 'valine betaine', 
@@ -19,11 +17,12 @@ X_columns <- c('xylose', 'xanthosine', 'valylglutamine', 'valine betaine',
                'stearate (18:0)', 'stachydrine', 'sphingosine', 'serotonin', 
                'serine', 'salicylate', 'saccharin', 'ribulose/xylulose', 
                'riboflavin (Vitamin B2)', 'ribitol', 'quinolinate', 'quinate', 
-               'pyroglutamine*')
+               'pyroglutamine*','Prob_Class_1')
  
 # Select X and Y
-X <- dataset[, X_columns]
-Y <- dataset[["Group"]]
+X_raw <- dataset[, X_columns]
+X <- scale(X_raw)
+Y <- dataset[["Prob_Class_1"]]
 
 # Check if all selected features are numeric
 if (!all(sapply(X, is.numeric))) {
@@ -32,7 +31,7 @@ if (!all(sapply(X, is.numeric))) {
 
 # Print the first few rows of X and Y to confirm
 head(X)
-head(Y)
+#head(Y)
 
 # PC Algorithm
 suffStat <- list(C = cor(X), n = nrow(X))  # Ensure X is numeric for correlation
@@ -112,7 +111,7 @@ add_edges_based_on_ida <- function(df, threshold = 0.5) {
     effect <- df$Causal_Effect[i]
     
     # Add edges if the effect is significant based on threshold
-    if (!is.na(effect) && (effect >= 0.5 || effect <= -0.5)) {
+    if (!is.na(effect) && (effect >= 0.1 || effect <= -0.1)) {
       g <<- add_edges(g, c(x, y))
     }
   }
@@ -129,7 +128,7 @@ plot(g, main = "Reconstructed DAG from IDA Results")
 
 # Print the mean causal effects for each edge
 ida_results_mean_df <- do.call(rbind, lapply(names(ida_results_list), function(name) {
-  filtered_effects <- ida_results_list[[name]][abs(ida_results_list[[name]]) > 0.5]
+  filtered_effects <- ida_results_list[[name]][abs(ida_results_list[[name]]) > 0.1]
   mean_causal_effect <- mean(filtered_effects, na.rm = TRUE)
   data.frame(
     Pair = name,
@@ -137,3 +136,64 @@ ida_results_mean_df <- do.call(rbind, lapply(names(ida_results_list), function(n
   )
 }))
 print(ida_results_mean_df)
+
+
+# To find all paths to Prob_Class_1
+# Install the required package if not already installed
+# install.packages("igraph")
+
+# Ensure the graph 'g' is directed
+g <- simplify(g, remove.multiple = TRUE, remove.loops = TRUE)
+
+# Define the target node
+target_node <- "Prob_Class_1"
+
+# Find all paths leading to the target node
+find_all_paths_to_target <- function(graph, target) {
+  all_paths <- list()
+  
+  # Loop through all nodes except the target node
+  for (node in V(graph)$name) {
+    if (node != target) {
+      # Use igraph's all_simple_paths function to find paths from each node to the target
+      paths <- all_simple_paths(graph, from = node, to = target, mode = "out")
+      if (length(paths) > 0) {
+        # Store all paths found
+        all_paths[[node]] <- lapply(paths, function(p) V(graph)[p]$name)
+      }
+    }
+  }
+  return(all_paths)
+}
+
+# Get all paths to the target node
+all_paths_to_target <- find_all_paths_to_target(g, target_node)
+
+# Print all paths to the target node
+for (start_node in names(all_paths_to_target)) {
+  cat(sprintf("Paths from %s to %s:\n", start_node, target_node))
+  for (path in all_paths_to_target[[start_node]]) {
+    cat(paste(path, collapse = " -> "), "\n")
+  }
+}
+
+# Step 2: Create a simplified subgraph based on the identified paths
+# Collect all unique nodes and edges that are part of the paths
+unique_nodes <- unique(unlist(lapply(all_paths_to_target, unlist)))
+print(unique_nodes)
+
+# Create a subgraph using these nodes
+subgraph <- induced_subgraph(g, vids = unique_nodes)
+
+# Simplify the subgraph to remove multiple edges and loops (if any)
+simplified_subgraph <- simplify(subgraph, remove.multiple = TRUE, remove.loops = TRUE)
+
+# Plot the simplified subgraph
+plot(simplified_subgraph, main = "Simplified Subgraph Leading to Prob_Class_1")
+
+# Save or print the subgraph structure
+cat("Nodes in the simplified subgraph:\n", V(simplified_subgraph)$name, "\n")
+cat("Edges in the simplified subgraph:\n")
+print(as_edgelist(simplified_subgraph))
+
+

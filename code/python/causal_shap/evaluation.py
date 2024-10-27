@@ -25,14 +25,14 @@ def iterative_feature_deletion_with_avg_output_regression(model, input_features,
     
     # Original prediction
     modified_input = input_features.copy().astype(float)  # Ensure float dtype
-    original_output = model.predict([modified_input])[0]
+    original_output = model.predict_proba([modified_input])[0]
     output_values.append(original_output)
     
     # Iteratively delete features cumulatively
     for i in range(top_k):
         feature_to_delete = sorted_features[i]
         modified_input[feature_to_delete] = 0.0  # Assign float zero
-        prediction = model.predict([modified_input])[0]
+        prediction = model.predict_proba([modified_input])[0]
         output_values.append(prediction)
     
     # Compute average output
@@ -70,11 +70,11 @@ def iterative_feature_addition_with_avg_output_regression(model, input_features,
     for i in range(top_k):
         feature_to_add = sorted_features[i]
         modified_input[feature_to_add] = input_features[feature_to_add].astype(float)
-        prediction = model.predict([modified_input])[0]
+        prediction = model.predict_proba([modified_input])[0]
         output_values.append(prediction)
     
     # Original prediction
-    original_output = model.predict([input_features])[0]
+    original_output = model.predict_proba([input_features])[0]
     output_values.append(original_output)
     
     # Compute average output
