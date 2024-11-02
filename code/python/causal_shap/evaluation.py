@@ -1,9 +1,13 @@
 import numpy as np
 import pandas as pd
 
-def iterative_feature_deletion_with_avg_output_regression(model, input_features, attribution_scores, top_k=None):
+import numpy as np
+import pandas as pd
+from sklearn.metrics import root_mean_squared_error
+
+def iterative_feature_deletion_with_rmse(model, input_features, attribution_scores, y_predicted, top_k=None):
     """
-    Iteratively deletes features based on attribution scores and computes the average model output for regression.
+    Iteratively deletes features based on attribution scores and computes the RMSE of model output for regression.
     
     Parameters:
     - model: Trained Scikit-learn regression model.
@@ -12,7 +16,7 @@ def iterative_feature_deletion_with_avg_output_regression(model, input_features,
     - top_k (int): Number of top features to delete. If None, deletes all features.
     
     Returns:
-    - avg_output (float): Average model output after deletions.
+    - avg_rmse (float): Average RMSE after deletions.
     """
     if top_k is None:
         top_k = len(input_features)
@@ -20,30 +24,31 @@ def iterative_feature_deletion_with_avg_output_regression(model, input_features,
     # Sort features by absolute attribution scores in descending order
     sorted_features = input_features.index[np.argsort(-np.abs(attribution_scores))]
     
-    # Initialize list to store outputs
-    output_values = []
-    
     # Original prediction
     modified_input = input_features.copy().astype(float)  # Ensure float dtype
-    original_output = model.predict_proba([modified_input])[0]
-    output_values.append(original_output)
     
-    # Iteratively delete features cumulatively
+    # Initialize list to store RMSE values
+    rmse_values = []
+    
+    # Iteratively delete features cumulatively and calculate RMSE
     for i in range(top_k):
         feature_to_delete = sorted_features[i]
         modified_input[feature_to_delete] = 0.0  # Assign float zero
-        prediction = model.predict_proba([modified_input])[0]
-        output_values.append(prediction)
+        if y_predicted:
+            prediction = model.predict_proba([modified_input.to_numpy()])[0][1]
+        else:
+            prediction = model.predict_proba([modified_input.to_numpy()])[0][0]
+        rmse = root_mean_squared_error([y_predicted], [prediction])
+        rmse_values.append(rmse)
     
-    # Compute average output
-    avg_output = np.mean(output_values)
-    return avg_output
+    # Compute average RMSE
+    avg_rmse = np.mean(rmse_values)
+    return avg_rmse
 
 
-
-def iterative_feature_addition_with_avg_output_regression(model, input_features, attribution_scores, top_k=None):
+def iterative_feature_addition_with_rmse(model, input_features, attribution_scores, y_predicted, top_k=None):
     """
-    Iteratively adds features based on attribution scores and computes the average model output.
+    Iteratively adds features based on attribution scores and computes the RMSE of model output for regression.
     
     Parameters:
     - model: Trained Scikit-learn regression model.
@@ -52,32 +57,31 @@ def iterative_feature_addition_with_avg_output_regression(model, input_features,
     - top_k (int): Number of top features to add. If None, adds all features.
     
     Returns:
-    - avg_output (float): Average model output after additions.
+    - avg_rmse (float): Average RMSE after additions.
     """
     if top_k is None:
         top_k = len(input_features)
     
-    # Sort features by attribution scores in descending order
-    sorted_features = input_features.index[np.argsort(-attribution_scores)]
-    
-    # Initialize list to store outputs
-    output_values = []
+    # Sort features by absolute attribution scores in descending order
+    sorted_features = input_features.index[np.argsort(-np.abs(attribution_scores))]
     
     # Initialize modified input with baseline (e.g., zeros)
     modified_input = pd.Series(0, index=input_features.index)
     
-    # Iteratively add features
+    # Initialize list to store RMSE values
+    rmse_values = []
+    
+    # Iteratively add features and calculate RMSE
     for i in range(top_k):
         feature_to_add = sorted_features[i]
         modified_input[feature_to_add] = input_features[feature_to_add].astype(float)
-        prediction = model.predict_proba([modified_input])[0]
-        output_values.append(prediction)
+        if y_predicted:
+            prediction = model.predict_proba([modified_input.to_numpy()])[0][1]
+        else:
+            prediction = model.predict_proba([modified_input.to_numpy()])[0][0]
+        rmse = root_mean_squared_error([y_predicted], [prediction])
+        rmse_values.append(rmse)
     
-    # Original prediction
-    original_output = model.predict_proba([input_features])[0]
-    output_values.append(original_output)
-    
-    # Compute average output
-    avg_output = np.mean(output_values)
-    return avg_output
-
+    # Compute average RMSE
+    avg_rmse = np.mean(rmse_values)
+    return avg_rmse

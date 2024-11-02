@@ -1,14 +1,9 @@
-# Load necessary libraries
 library(readxl)
 library(pcalg)
 library(igraph)
 
-# Load the dataset
 dataset <- read_excel("C:/Users/snorl/Desktop/FYP/dataset/data_full_predicted_probabilities.xlsx")
 
-# Correct Group encoding
-
-# Specify columns for X (features)
 X_columns <- c('xylose', 'xanthosine', 'valylglutamine', 'valine betaine', 
                'ursodeoxycholate sulfate (1)', 'uracil', 'tyrosine', 
                'tryptophylglycine', "trigonelline (N'-methylnicotinate)", 
@@ -18,45 +13,36 @@ X_columns <- c('xylose', 'xanthosine', 'valylglutamine', 'valine betaine',
                'serine', 'salicylate', 'saccharin', 'ribulose/xylulose', 
                'riboflavin (Vitamin B2)', 'ribitol', 'quinolinate', 'quinate', 
                'pyroglutamine*','Prob_Class_1')
- 
-# Select X and Y
+
+
 X_raw <- dataset[, X_columns]
 X <- scale(X_raw)
 Y <- dataset[["Prob_Class_1"]]
 
-# Check if all selected features are numeric
 if (!all(sapply(X, is.numeric))) {
   stop("All columns in X must be numeric for correlation computation.")
 }
 
-# Print the first few rows of X and Y to confirm
 head(X)
-#head(Y)
 
-# PC Algorithm
-suffStat <- list(C = cor(X), n = nrow(X))  # Ensure X is numeric for correlation
-alpha <- 0.05
-var_names <- colnames(X)
-
-pc_result <- pc(
-  suffStat = suffStat,
-  indepTest = gaussCItest,
-  alpha = alpha,
-  labels = var_names,
-  verbose = FALSE
-)
-
-# Plot the resulting graph
-plot(pc_result@graph)
-
-adj_matrix <- as(pc_result@graph, "matrix")
-
-# Check if the graph is a valid CPDAG before proceeding
-if (!isValidGraph(adj_matrix, type = "cpdag")) {
-  stop("The graph is not a valid CPDAG.")
+# GES Algorithm
+score <- new("GaussL0penObsScore",X)
+ges.fit <- ges(score)
+if (require(Rgraphviz)) {
+  par(mfrow=c(1,2))
+  plot(ges.fit$essgraph, main = "Estimated CPDAG")
+  str(ges.fit, max=2)
 }
 
+adj_matrix <- as(ges.fit$essgraph, "matrix")
+print(adj_matrix)
+
+
+var_names <- colnames(X)
 # IDA Algorithm: Extract edges
+rownames(adj_matrix) <- var_names
+colnames(adj_matrix) <- var_names
+
 get_edges <- function(adj_matrix) {
   edges <- which(adj_matrix != 0, arr.ind = TRUE)
   edge_list <- data.frame(
@@ -70,6 +56,10 @@ get_edges <- function(adj_matrix) {
 ida_results_list <- list()
 edge_list <- get_edges(adj_matrix)
 
+
+print(edge_list)
+
+
 # Loop through each edge and apply IDA
 for (i in 1:nrow(edge_list)) {
   x <- edge_list[i, "from"]
@@ -81,7 +71,7 @@ for (i in 1:nrow(edge_list)) {
       y.pos = y_pos,
       x.pos = x_pos,
       mcov = cov(X),
-      graphEst = pc_result@graph,
+      graphEst = adj_matrix,
       method = "local",
       type = "pdag"
     )
@@ -111,7 +101,7 @@ add_edges_based_on_ida <- function(df, threshold = 0.5) {
     effect <- df$Causal_Effect[i]
     
     # Add edges if the effect is significant based on threshold
-    if (!is.na(effect) && (effect >= 0.1 || effect <= -0.1)) {
+    if (!is.na(effect) && (effect >= 0.15 || effect <= -0.15)) {
       g <<- add_edges(g, c(x, y))
     }
   }
@@ -189,11 +179,13 @@ subgraph <- induced_subgraph(g, vids = unique_nodes)
 simplified_subgraph <- simplify(subgraph, remove.multiple = TRUE, remove.loops = TRUE)
 
 # Plot the simplified subgraph
-plot(simplified_subgraph, main = "Simplified Subgraph Leading to Prob_Class_1")
+plot(simplified_subgraph, main = "GES Graph Leading to Prob_Class_1")
 
 # Save or print the subgraph structure
 cat("Nodes in the simplified subgraph:\n", V(simplified_subgraph)$name, "\n")
 cat("Edges in the simplified subgraph:\n")
 print(as_edgelist(simplified_subgraph))
+
+
 
 

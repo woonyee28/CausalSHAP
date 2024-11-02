@@ -102,6 +102,10 @@ class CausalInference:
         # Remove incoming edges to features in S
         for feature in S:
             G_intervened.remove_edges_from(list(G_intervened.in_edges(feature)))
+
+        # Add any missing nodes (isolated nodes)
+        missing_nodes = set(self.data.columns) - set(G_intervened.nodes)
+        G_intervened.add_nodes_from(missing_nodes)
         
         # Perform topological sort
         try:
@@ -127,19 +131,19 @@ class CausalInference:
         """
         Sample a value for a feature conditioned on its parent features using precomputed regression model.
         """
-        # Use all parents except the target variable
-        all_parents = [p for p in self.get_parents(feature) if p != self.target_variable]
+        # Effective parents are those not in S and not the target variable
+        effective_parents = [p for p in self.get_parents(feature) if p != self.target_variable]
         
-        if not all_parents:
+        if not effective_parents:
             return self.sample_marginal(feature)
 
-        # Create a unique key for the feature and its parents
-        model_key = (feature, tuple(sorted(all_parents)))
+        # Create a unique key for the feature and its effective parents
+        model_key = (feature, tuple(sorted(effective_parents)))  # Sorted for consistency
 
-        # Check if a precomputed regression model exists
+        # Check if a precomputed regression model exists for the feature and its effective parents
         if model_key not in self.regression_models:
-            # Fit a regression model for this feature given its parents
-            X = self.data[all_parents].values
+            # Fit a regression model for this feature given its effective parents
+            X = self.data[effective_parents].values
             y = self.data[feature].values
             reg = LinearRegression()
             reg.fit(X, y)
@@ -154,13 +158,14 @@ class CausalInference:
         # Use the precomputed regression model and std
         reg, std = self.regression_models[model_key]
 
-        # Prepare parent values for prediction
-        parent_values_array = np.array([parent_values[parent] for parent in all_parents]).reshape(1, -1)
+        # Prepare parent values for prediction using NumPy arrays
+        parent_values_array = np.array([parent_values[parent] for parent in effective_parents]).reshape(1, -1)
         mean = reg.predict(parent_values_array)[0]
 
         # Sample from a normal distribution centered at the predicted mean
         sampled_value = np.random.normal(mean, std)
         return sampled_value
+
 
 
     def compute_v_do(self, S, x_S, num_samples=50, class_index=1):
@@ -195,34 +200,31 @@ class CausalInference:
                 if feature not in sample and feature not in S:
                     # Sample from marginal distribution
                     sample[feature] = self.sample_marginal(feature)
-            # Collect the sample
-            samples.append(sample)
-        # Convert samples to DataFrame
-        intervened_data = pd.DataFrame(samples)
-        # Reorder columns to match training data
-        intervened_data = intervened_data[self.model.feature_names_in_]
-        # Get predictions
-        predictions = self.model.predict(intervened_data)
-        v_S = np.mean(predictions)
+            # Convert sample to DataFrame
+            intervened_data = pd.DataFrame([sample])
+            # Reorder columns to match training data
+            intervened_data = intervened_data[self.model.feature_names_in_]
+            # Get probability prediction for the specified class
+            proba = self.model.predict_proba(intervened_data)[0][class_index]
+            samples.append(proba)
+        v_S = np.mean(samples)
         return v_S
 
-
-
-    def compute_modified_shap(self, x, num_samples=50, shap_num_samples=50):
+    def compute_modified_shap_proba(self, x, num_samples=50, shap_num_samples=50, class_index=1):
         # Exclude the target variable from the features list
         features = [col for col in self.data.columns if col != self.target_variable]
         n_features = len(features)
         phi_causal = {feature: 0.0 for feature in features}
 
-        # Precompute E[f(X)]
+        # Precompute E[f(X)] using predict_proba
         data_without_target = self.data.drop(columns=[self.target_variable], errors='ignore')
         # Reorder columns to match training data
         data_without_target = data_without_target[self.model.feature_names_in_]
-        E_fX = self.model.predict(data_without_target).mean()
+        E_fX = self.model.predict_proba(data_without_target)[:, class_index].mean()
 
-        # Precompute f(x)
+        # Precompute f(x) using predict_proba
         x_ordered = x[self.model.feature_names_in_]
-        f_x = self.model.predict(x_ordered.to_frame().T)[0]
+        f_x = self.model.predict_proba(x_ordered.to_frame().T)[0][class_index]
 
         # Monte Carlo approximation for Shapley values
         for _ in range(shap_num_samples):
@@ -244,10 +246,10 @@ class CausalInference:
                 x_Si = x[S_with_i] if S_with_i else pd.Series(dtype=float)
 
                 # Compute v(S)
-                v_S = self.compute_v_do(S_without_i, x_S, num_samples=num_samples)
+                v_S = self.compute_v_do(S_without_i, x_S, num_samples=num_samples, class_index=class_index)
 
                 # Compute v(S union {i})
-                v_Si = self.compute_v_do(S_with_i, x_Si, num_samples=num_samples)
+                v_Si = self.compute_v_do(S_with_i, x_Si, num_samples=num_samples, class_index=class_index)
 
                 # Compute weight w(S,i) = |S|!(n - |S| - 1)! / n!
                 weight = (factorial(len(S_without_i)) * factorial(n_features - len(S_without_i) - 1)) / factorial(n_features)
