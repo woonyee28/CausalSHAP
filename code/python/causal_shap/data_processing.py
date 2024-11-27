@@ -11,6 +11,11 @@ class DataProcessor:
         self.df = pd.read_excel(self.data_path)
         self.df = self.df.drop(columns=['HAD_Anxiety', 'Patient', 'Batch_metabolomics', 'BH', 'Sex', 'Age', 'BMI','Race','Education','HAD_Depression','STAI_Tanxiety', 'Diet_Category','Diet_Pattern'])
         return self.df
+    
+    def load_data_lung_cancer(self):
+        self.df = pd.read_csv(self.data_path)
+        self.df = self.df.drop(columns=['followup-time', 'serno'])
+        return self.df
 
     def preprocess_raw_data(self, raw_data_path):
         raw_df = pd.read_excel(raw_data_path)

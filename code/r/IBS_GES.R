@@ -25,12 +25,13 @@ if (!all(sapply(X, is.numeric))) {
 
 head(X)
 
+nodeAttrs <- list(fontsize = setNames(rep(25, length(nodeNames)), nodeNames))
 # GES Algorithm
 score <- new("GaussL0penObsScore",X)
 ges.fit <- ges(score)
 if (require(Rgraphviz)) {
   par(mfrow=c(1,2))
-  plot(ges.fit$essgraph, main = "Estimated CPDAG")
+  plot(ges.fit$essgraph, main = "Estimated CPDAG", nodeAttrs=nodeAttrs)
   str(ges.fit, max=2)
 }
 
