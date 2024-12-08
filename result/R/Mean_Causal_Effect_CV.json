@@ -1,0 +1,9 @@
+[
+    {"Pair": "age->bmi", "Mean_Causal_Effect": 0.526506},
+    {"Pair": "diet_score->bmi", "Mean_Causal_Effect": 0.582793},
+    {"Pair": "age->fitness", "Mean_Causal_Effect": 0.485067}, 
+    {"Pair": "exercise_level->fitness", "Mean_Causal_Effect": 0.528266},
+    {"Pair": "age->cv_risk", "Mean_Causal_Effect": 0.848021},
+    {"Pair": "bmi->cv_risk", "Mean_Causal_Effect": 0.418387},
+    {"Pair": "fitness->cv_risk", "Mean_Causal_Effect": 0.427032}
+  ]

@@ -166,23 +166,17 @@ class CausalInference:
         sampled_value = np.random.normal(mean, std)
         return sampled_value
 
-
-
-    def compute_v_do(self, S, x_S, num_samples=50, class_index=1):
+    def compute_v_do(self, S, x_S, num_samples=50, is_classifier=False):
         samples = []
-        # Get all features excluding the target variable
         all_features = [col for col in self.data.columns if col != self.target_variable]
-        # Determine the topological order, including all features
         variables_order = self.get_topological_order(S)
         for _ in range(num_samples):
             sample = {}
-            # Set intervened features
             for feature in S:
                 sample[feature] = x_S[feature]
-            # Sample non-intervened features
             for feature in variables_order:
                 if feature in S or feature == self.target_variable:
-                    continue  # Skip intervened features and the target variable
+                    continue
                 parents = self.get_parents(feature)
                 parents = [p for p in parents if p != self.target_variable]
                 parent_values = {}
@@ -195,80 +189,57 @@ class CausalInference:
                     sample[feature] = self.sample_marginal(feature)
                 else:
                     sample[feature] = self.sample_conditional(feature, parent_values)
-            # Assign values to features not included in the causal graph
             for feature in all_features:
                 if feature not in sample and feature not in S:
-                    # Sample from marginal distribution
                     sample[feature] = self.sample_marginal(feature)
-            # Convert sample to DataFrame
             intervened_data = pd.DataFrame([sample])
-            # Reorder columns to match training data
             intervened_data = intervened_data[self.model.feature_names_in_]
-            # Get probability prediction for the specified class
-            proba = self.model.predict_proba(intervened_data)[0][class_index]
+            if is_classifier:
+                proba = self.model.predict_proba(intervened_data)[0][1]  # Assuming binary classification
+            else:
+                proba = self.model.predict(intervened_data)[0]
             samples.append(proba)
         v_S = np.mean(samples)
         return v_S
 
-    def compute_modified_shap_proba(self, x, num_samples=50, shap_num_samples=50, class_index=1):
-        # Exclude the target variable from the features list
+    def compute_modified_shap_proba(self, x, num_samples=50, shap_num_samples=50, is_classifier=False):
         features = [col for col in self.data.columns if col != self.target_variable]
         n_features = len(features)
         phi_causal = {feature: 0.0 for feature in features}
 
-        # Precompute E[f(X)] using predict_proba
         data_without_target = self.data.drop(columns=[self.target_variable], errors='ignore')
-        # Reorder columns to match training data
         data_without_target = data_without_target[self.model.feature_names_in_]
-        E_fX = self.model.predict_proba(data_without_target)[:, class_index].mean()
+        if is_classifier:
+            E_fX = self.model.predict_proba(data_without_target)[:, 1].mean()  # Assuming binary classification
+        else:
+            E_fX = self.model.predict(data_without_target).mean()
 
-        # Precompute f(x) using predict_proba
         x_ordered = x[self.model.feature_names_in_]
-        f_x = self.model.predict_proba(x_ordered.to_frame().T)[0][class_index]
+        if is_classifier:
+            f_x = self.model.predict_proba(x_ordered.to_frame().T)[0][1]  # Assuming binary classification
+        else:
+            f_x = self.model.predict(x_ordered.to_frame().T)[0]
 
-        # Monte Carlo approximation for Shapley values
         for _ in range(shap_num_samples):
-            # Randomly select a subset S from features (excluding target variable)
             S_size = random.randint(0, n_features)
             S = random.sample(features, S_size)
-
-            # For each feature i not in S
             for i in features:
                 if i in S:
                     continue
                 S_without_i = S.copy()
                 S_with_i = S + [i]
-
-                # x_S is the values of features in S
                 x_S = x[S_without_i] if S_without_i else pd.Series(dtype=float)
-
-                # x_Si is the values of features in S union {i}
                 x_Si = x[S_with_i] if S_with_i else pd.Series(dtype=float)
-
-                # Compute v(S)
-                v_S = self.compute_v_do(S_without_i, x_S, num_samples=num_samples, class_index=class_index)
-
-                # Compute v(S union {i})
-                v_Si = self.compute_v_do(S_with_i, x_Si, num_samples=num_samples, class_index=class_index)
-
-                # Compute weight w(S,i) = |S|!(n - |S| - 1)! / n!
+                v_S = self.compute_v_do(S_without_i, x_S, num_samples=num_samples, is_classifier=is_classifier)
+                v_Si = self.compute_v_do(S_with_i, x_Si, num_samples=num_samples, is_classifier=is_classifier)
                 weight = (factorial(len(S_without_i)) * factorial(n_features - len(S_without_i) - 1)) / factorial(n_features)
-
-                # Multiply by gamma_i
                 gamma_i = self.gamma.get(i, 0.0)
                 weight *= gamma_i
-
-                # Marginal contribution
                 delta_v = v_Si - v_S
-
-                # Update phi_causal[i]
                 phi_causal[i] += weight * delta_v
 
-        # Normalize phi_causal
         sum_phi_causal = sum(phi_causal.values())
-
         if sum_phi_causal == 0:
-            # Avoid division by zero
             phi_normalized = {k: 0.0 for k in phi_causal.keys()}
         else:
             scaling_factor = (f_x - E_fX) / sum_phi_causal

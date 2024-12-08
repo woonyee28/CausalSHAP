@@ -1,7 +1,7 @@
 [
     {"Pair": "sex->smoke_never(0)_ex(1)_current(2)", "Mean_Causal_Effect": -0.48823},
     {"Pair": "age_interview->smoke_never(0)_ex(1)_current(2)", "Mean_Causal_Effect": 0.121388},
-    {"Pair": "BMI->smoke_never(0)_ex(1)_current(2)", "Mean_Causal_Effect": -0.06909},
+    {"Pair": "BMI->smoke_never(0)_ex(1)_current(2)", "Mean_Causal_Effect": -0.06909}, 
     {"Pair": "sex->Leisure screen time", "Mean_Causal_Effect": 0.092305},
     {"Pair": "age_interview->Leisure screen time", "Mean_Causal_Effect": 0.090784},
     {"Pair": "BMI->Leisure screen time", "Mean_Causal_Effect": 0.034736},
