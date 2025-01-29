@@ -1,7 +1,0 @@
-[
-    {"Pair": "air_pollution_exposure->air_quality_index", "Mean_Causal_Effect": 0.493145},
-    {"Pair": "industrial_activity->air_quality_index", "Mean_Causal_Effect": 0.184220},
-    {"Pair": "age->lung_cancer_risk", "Mean_Causal_Effect": 0.175620}, 
-    {"Pair": "smoking->lung_cancer_risk", "Mean_Causal_Effect": 0.092051},
-    {"Pair": "air_quality_index->lung_cancer_risk", "Mean_Causal_Effect": 0.607798}
-  ]
