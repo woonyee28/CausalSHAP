@@ -1,0 +1,7 @@
+[
+    {"Pair": "smoking->drink_coffee", "Mean_Causal_Effect": 0.940100},
+    {"Pair": "stress->drink_coffee", "Mean_Causal_Effect": 0.254443},
+    {"Pair": "smoking->lung_cancer_risk", "Mean_Causal_Effect": 0.789596},
+    {"Pair": "stress->lung_cancer_risk", "Mean_Causal_Effect": 0.233254}
+  ]
+

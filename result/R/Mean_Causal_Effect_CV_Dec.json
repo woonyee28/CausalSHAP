@@ -1,0 +1,6 @@
+[
+    {"Pair": "diet_score->bmi", "Mean_Causal_Effect": 0.453777},
+    {"Pair": "sleep_duration->bmi", "Mean_Causal_Effect": 0.815536}, 
+    {"Pair": "bmi->mental_health", "Mean_Causal_Effect": 0.962941},
+    {"Pair": "bmi->cv_risk", "Mean_Causal_Effect": 0.869748}
+  ]
