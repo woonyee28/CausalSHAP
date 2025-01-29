@@ -57,13 +57,9 @@ def iterative_feature_deletion_scores(model, X_test, y_test, attribution_scores,
     if top_k is None:
         top_k = len(X_test.columns)
     
-    # Sort features by absolute attribution scores
     sorted_features = attribution_scores.abs().sort_values(ascending=False).index[:top_k]
-    
-    # Initialize modified input
     modified_X = X_test.copy().astype(float)
     
-    # Initialize metric lists
     metrics_lists = {
         'auroc': [],
         'cross_entropy': [],
@@ -73,28 +69,21 @@ def iterative_feature_deletion_scores(model, X_test, y_test, attribution_scores,
         'r_squared': []
     }
     
-    # Iteratively delete features
     for feature_to_delete in sorted_features:
-        # Delete feature globally
         modified_X[feature_to_delete] = 0.0
         
-        # Get predictions for all instances
         if hasattr(model, "predict_proba"):
             predictions = model.predict_proba(modified_X)[:, 1]
-            # Calculate metrics
             step_metrics = calculate_metrics_classification(y_test, predictions)
         else:
             predictions = model.predict(modified_X)
-            # Calculate metrics
             step_metrics = calculate_metrics_regression(y_test, predictions)
         
-        # Store metrics
         for metric_name, value in step_metrics.items():
             metrics_lists[metric_name].append(value)
     
     average_scores = {metric: np.mean(values) for metric, values in metrics_lists.items()}
     
-    # Return both stepwise metrics and averages
     return {
         'stepwise_metrics': metrics_lists,
         'average_scores': average_scores
@@ -117,13 +106,9 @@ def iterative_feature_addition_scores(model, X_test, y_test, attribution_scores,
     if top_k is None:
         top_k = len(X_test.columns)
     
-    # Sort features by absolute attribution scores
     sorted_features = attribution_scores.abs().sort_values(ascending=False).index[:top_k]
-    
-    # Initialize modified input with zeros
     modified_X = pd.DataFrame(0, index=X_test.index, columns=X_test.columns)
     
-    # Initialize metric lists
     metrics_lists = {
         'auroc': [],
         'cross_entropy': [],
@@ -133,28 +118,21 @@ def iterative_feature_addition_scores(model, X_test, y_test, attribution_scores,
         'r_squared': []
     }
     
-    # Iteratively add features
     for feature_to_add in sorted_features:
-        # Add feature globally
         modified_X[feature_to_add] = X_test[feature_to_add].astype(float)
         
-        # Get predictions for all instances
         if hasattr(model, "predict_proba"):
             predictions = model.predict_proba(modified_X)[:, 1]
-            # Calculate metrics
             step_metrics = calculate_metrics_classification(y_test, predictions)
         else:
             predictions = model.predict(modified_X)
-            # Calculate metrics
             step_metrics = calculate_metrics_regression(y_test, predictions)
         
-        # Store metrics
         for metric_name, value in step_metrics.items():
             metrics_lists[metric_name].append(value)
     
     average_scores = {metric: np.mean(values) for metric, values in metrics_lists.items()}
     
-    # Return both stepwise metrics and averages
     return {
         'stepwise_metrics': metrics_lists,
         'average_scores': average_scores
@@ -173,7 +151,6 @@ def evaluate_global_shap_scores(model, X_test, y_test, shap_values, causal=False
     Returns:
     - Dictionary containing metric trajectories
     """
-    # Calculate global feature importance (mean absolute SHAP value for each feature)
     if causal:
         global_importance = shap_values
     else:
@@ -187,8 +164,7 @@ def evaluate_global_shap_scores(model, X_test, y_test, shap_values, causal=False
                 np.abs(shap_values[:, :, 1]).mean(axis=0),
                 index=X_test.columns
             )
-        
-    # Calculate deletion and insertion scores
+    
     deletion_results = iterative_feature_deletion_scores(
         model, X_test, y_test, global_importance
     )
@@ -219,19 +195,13 @@ def iterative_feature_deletion_with_rmse(model, input_features, attribution_scor
     if top_k is None:
         top_k = len(input_features)
     
-    # Sort features by absolute attribution scores in descending order
     sorted_features = input_features.index[np.argsort(-np.abs(attribution_scores))]
-    
-    # Original prediction
-    modified_input = input_features.copy().astype(float)  # Ensure float dtype
-    
-    # Initialize list to store RMSE values
+    modified_input = input_features.copy().astype(float)
     rmse_values = []
     
-    # Iteratively delete features cumulatively and calculate RMSE
     for i in range(top_k):
         feature_to_delete = sorted_features[i]
-        modified_input[feature_to_delete] = 0.0  # Assign float zero
+        modified_input[feature_to_delete] = 0.0 
         if y_predicted:
             prediction = model.predict_proba([modified_input.to_numpy()])[0][1]
         else:
@@ -239,7 +209,6 @@ def iterative_feature_deletion_with_rmse(model, input_features, attribution_scor
         rmse = root_mean_squared_error([y_predicted], [prediction])
         rmse_values.append(rmse)
     
-    # Compute average RMSE
     avg_rmse = np.mean(rmse_values)
     return avg_rmse
 
@@ -260,16 +229,11 @@ def iterative_feature_addition_with_rmse(model, input_features, attribution_scor
     if top_k is None:
         top_k = len(input_features)
     
-    # Sort features by absolute attribution scores in descending order
     sorted_features = input_features.index[np.argsort(-np.abs(attribution_scores))]
     
-    # Initialize modified input with baseline (e.g., zeros)
     modified_input = pd.Series(0, index=input_features.index)
-    
-    # Initialize list to store RMSE values
     rmse_values = []
     
-    # Iteratively add features and calculate RMSE
     for i in range(top_k):
         feature_to_add = sorted_features[i]
         modified_input[feature_to_add] = input_features[feature_to_add].astype(float)
@@ -280,6 +244,5 @@ def iterative_feature_addition_with_rmse(model, input_features, attribution_scor
         rmse = root_mean_squared_error([y_predicted], [prediction])
         rmse_values.append(rmse)
     
-    # Compute average RMSE
     avg_rmse = np.mean(rmse_values)
     return avg_rmse

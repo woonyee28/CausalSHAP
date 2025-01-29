@@ -12,11 +12,11 @@ from sklearn.linear_model import LinearRegression
 
 class CausalInference:
     def __init__(self, data, model, target_variable):
-        self.data = data  # pandas DataFrame
+        self.data = data  
         self.pc_graph = None
-        self.model = model  # Trained machine learning model
-        self.gamma = None  # Dictionary to hold normalized causal strengths gamma_i
-        self.target_variable = target_variable  # Name of the target variable
+        self.model = model  
+        self.gamma = None  
+        self.target_variable = target_variable 
         self.ida_graph = None
         self.regression_models = {} 
 
@@ -34,47 +34,35 @@ class CausalInference:
         """
         Load causal strengths (beta_i) from JSON file and compute gamma_i.
         """
-        # Load causal effects from JSON file
         with open(json_file_path, 'r') as f:
             causal_effects_list = json.load(f)
         
-        # Build the causal graph
         G = nx.DiGraph()
-
-        # Step 1: Add all nodes (features) from self.data columns
         nodes = list(self.data.columns)
         G.add_nodes_from(nodes)
 
-        # Step 2: Add edges based on the causal effects from the JSON file
         for item in causal_effects_list:
             pair = item['Pair']
             mean_causal_effect = item['Mean_Causal_Effect']
             if mean_causal_effect is None:
-                continue  # Skip if causal effect is None
-            # Split the pair into source and target
+                continue  
             source, target = pair.split('->')
             source = source.strip()
             target = target.strip()
-            # Add edge to the graph with the causal effect as weight
             G.add_edge(source, target, weight=mean_causal_effect)
-
-        # Save the graph with all nodes and edges
         self.ida_graph = G.copy()
-
-        # Now, compute the total causal effect from each feature to the target variable
         features = self.data.columns.tolist()
         beta_dict = {}
+
         for feature in features:
             if feature == self.target_variable:
                 continue
-            # Find all paths from feature to target_variable
             try:
                 paths = list(nx.all_simple_paths(G, source=feature, target=self.target_variable))
             except nx.NetworkXNoPath:
-                continue  # No path from this feature to target variable
+                continue  
             total_effect = 0
             for path in paths:
-                # Compute the product of the edge weights along the path
                 effect = 1
                 for i in range(len(path)-1):
                     edge_weight = G[path[i]][path[i+1]]['weight']
@@ -83,10 +71,8 @@ class CausalInference:
             if total_effect != 0:
                 beta_dict[feature] = total_effect
 
-        # Compute gamma_i = |beta_i| / sum_j |beta_j|
         total_causal_effect = sum(abs(beta) for beta in beta_dict.values())
         if total_causal_effect == 0:
-            # Avoid division by zero
             self.gamma = {k: 0.0 for k in features}
         else:
             self.gamma = {k: abs(beta_dict.get(k, 0.0)) / total_causal_effect for k in features}
@@ -96,18 +82,12 @@ class CausalInference:
         """
         Returns the topological order of variables after intervening on subset S.
         """
-        # Create a copy of the causal graph to modify
         G_intervened = self.ida_graph.copy()
-        
-        # Remove incoming edges to features in S
         for feature in S:
             G_intervened.remove_edges_from(list(G_intervened.in_edges(feature)))
-
-        # Add any missing nodes (isolated nodes)
         missing_nodes = set(self.data.columns) - set(G_intervened.nodes)
         G_intervened.add_nodes_from(missing_nodes)
-        
-        # Perform topological sort
+
         try:
             order = list(nx.topological_sort(G_intervened))
         except nx.NetworkXUnfeasible:
@@ -131,38 +111,21 @@ class CausalInference:
         """
         Sample a value for a feature conditioned on its parent features using precomputed regression model.
         """
-        # Effective parents are those not in S and not the target variable
         effective_parents = [p for p in self.get_parents(feature) if p != self.target_variable]
-        
         if not effective_parents:
             return self.sample_marginal(feature)
-
-        # Create a unique key for the feature and its effective parents
-        model_key = (feature, tuple(sorted(effective_parents)))  # Sorted for consistency
-
-        # Check if a precomputed regression model exists for the feature and its effective parents
+        model_key = (feature, tuple(sorted(effective_parents))) 
         if model_key not in self.regression_models:
-            # Fit a regression model for this feature given its effective parents
             X = self.data[effective_parents].values
             y = self.data[feature].values
             reg = LinearRegression()
             reg.fit(X, y)
-
-            # Estimate the standard deviation from residuals
             residuals = y - reg.predict(X)
             std = residuals.std()
-
-            # Store the regression model and std in the dictionary
             self.regression_models[model_key] = (reg, std)
-
-        # Use the precomputed regression model and std
         reg, std = self.regression_models[model_key]
-
-        # Prepare parent values for prediction using NumPy arrays
         parent_values_array = np.array([parent_values[parent] for parent in effective_parents]).reshape(1, -1)
         mean = reg.predict(parent_values_array)[0]
-
-        # Sample from a normal distribution centered at the predicted mean
         sampled_value = np.random.normal(mean, std)
         return sampled_value
 
@@ -195,7 +158,7 @@ class CausalInference:
             intervened_data = pd.DataFrame([sample])
             intervened_data = intervened_data[self.model.feature_names_in_]
             if is_classifier:
-                proba = self.model.predict_proba(intervened_data)[0][1]  # Assuming binary classification
+                proba = self.model.predict_proba(intervened_data)[0][1] 
             else:
                 proba = self.model.predict(intervened_data)[0]
             samples.append(proba)
@@ -210,13 +173,13 @@ class CausalInference:
         data_without_target = self.data.drop(columns=[self.target_variable], errors='ignore')
         data_without_target = data_without_target[self.model.feature_names_in_]
         if is_classifier:
-            E_fX = self.model.predict_proba(data_without_target)[:, 1].mean()  # Assuming binary classification
+            E_fX = self.model.predict_proba(data_without_target)[:, 1].mean() 
         else:
             E_fX = self.model.predict(data_without_target).mean()
 
         x_ordered = x[self.model.feature_names_in_]
         if is_classifier:
-            f_x = self.model.predict_proba(x_ordered.to_frame().T)[0][1]  # Assuming binary classification
+            f_x = self.model.predict_proba(x_ordered.to_frame().T)[0][1]  
         else:
             f_x = self.model.predict(x_ordered.to_frame().T)[0]
 
