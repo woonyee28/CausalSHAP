@@ -5,7 +5,7 @@ library(pcalg)
 library(igraph)
 
 # Load the dataset
-dataset <- read_excel("C:/Users/snorl/Desktop/FYP/dataset/data_full_predicted_probabilities.xlsx")
+dataset <- read_excel("C:/Users/snorl/Desktop/FYP/dataset/Real_World_IBS_Predicted_Probabilities.xlsx")
 
 # Correct Group encoding
 
@@ -39,6 +39,7 @@ suffStat <- list(C = cor(X), n = nrow(X))  # Ensure X is numeric for correlation
 alpha <- 0.05
 var_names <- colnames(X)
 
+pc_start_time <- Sys.time()
 pc_result <- pc(
   suffStat = suffStat,
   indepTest = gaussCItest,
@@ -47,6 +48,9 @@ pc_result <- pc(
   verbose = FALSE,
   skel.method = "stable"
 )
+pc_end_time <- Sys.time()
+pc_duration <- as.numeric(pc_end_time - pc_start_time, units="secs")
+print(paste("PC Algorithm took:", round(pc_duration, 2), "seconds"))
 
 # Plot the resulting graph
 nodeNames <- nodes(pc_result@graph)
@@ -70,6 +74,7 @@ ida_results_list <- list()
 edge_list <- get_edges(adj_matrix)
 
 # Loop through each edge and apply IDA
+ida_start_time <- Sys.time()
 for (i in 1:nrow(edge_list)) {
   x <- edge_list[i, "from"]
   y <- edge_list[i, "to"]
@@ -87,6 +92,9 @@ for (i in 1:nrow(edge_list)) {
     ida_results_list[[paste(x, "->", y, sep = "")]] <- result
   }
 }
+ida_end_time <- Sys.time()
+ida_duration <- as.numeric(ida_end_time - ida_start_time, units="secs")
+print(paste("IDA Algorithm took:", round(ida_duration, 2), "seconds"))
 
 # Convert IDA results to DataFrame
 ida_results_df <- do.call(rbind, lapply(names(ida_results_list), function(name) {

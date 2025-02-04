@@ -130,9 +130,9 @@ class CausalInference:
         return sampled_value
 
     def compute_v_do(self, S, x_S, num_samples=50, is_classifier=False):
-        samples = []
-        all_features = [col for col in self.data.columns if col != self.target_variable]
+        samples_list = []
         variables_order = self.get_topological_order(S)
+        
         for _ in range(num_samples):
             sample = {}
             for feature in S:
@@ -141,29 +141,20 @@ class CausalInference:
                 if feature in S or feature == self.target_variable:
                     continue
                 parents = self.get_parents(feature)
-                parents = [p for p in parents if p != self.target_variable]
-                parent_values = {}
-                for parent in parents:
-                    if parent in S:
-                        parent_values[parent] = x_S[parent]
-                    else:
-                        parent_values[parent] = sample[parent]
+                parent_values = {p: x_S[p] if p in S else sample[p] for p in parents if p != self.target_variable}
                 if not parent_values:
                     sample[feature] = self.sample_marginal(feature)
                 else:
                     sample[feature] = self.sample_conditional(feature, parent_values)
-            for feature in all_features:
-                if feature not in sample and feature not in S:
-                    sample[feature] = self.sample_marginal(feature)
-            intervened_data = pd.DataFrame([sample])
-            intervened_data = intervened_data[self.model.feature_names_in_]
-            if is_classifier:
-                proba = self.model.predict_proba(intervened_data)[0][1] 
-            else:
-                proba = self.model.predict(intervened_data)[0]
-            samples.append(proba)
-        v_S = np.mean(samples)
-        return v_S
+            samples_list.append(sample)
+        
+        intervened_data = pd.DataFrame(samples_list)
+        intervened_data = intervened_data[self.model.feature_names_in_]
+        if is_classifier:
+            probas = self.model.predict_proba(intervened_data)[:, 1]
+        else:
+            probas = self.model.predict(intervened_data)
+        return np.mean(probas)
 
     def compute_modified_shap_proba(self, x, num_samples=50, shap_num_samples=50, is_classifier=False):
         features = [col for col in self.data.columns if col != self.target_variable]
