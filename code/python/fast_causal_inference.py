@@ -279,7 +279,7 @@ class FastCausalInference:
                 for m in m_values:
                     weight = shapley_weights.get((m, d), 0) * self.gamma.get(feature, 0)
                     delta_v = self._compute_path_delta_v(feature, path, m, x, is_classifier)
-                    phi_causal[feature] += weight * delta_v * m_values[m]
+                    phi_causal[feature] += weight * delta_v 
 
         sum_phi = sum(phi_causal.values())
         if sum_phi != 0:
