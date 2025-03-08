@@ -1,0 +1,42 @@
+[
+  {
+    "Pair": "Erysipelotrichales->Eubacteriales",
+    "Mean_Causal_Effect": 0.4910247
+  },
+  {
+    "Pair": "Eggerthellales->Coriobacteriales",
+    "Mean_Causal_Effect": 0.3829626
+  },
+  {
+    "Pair": "Coriobacteriales->Eggerthellales",
+    "Mean_Causal_Effect": 0.3829626
+  },
+  {
+    "Pair": "Veillonellales->Vibrionales",
+    "Mean_Causal_Effect": 0.3782792
+  },
+  {
+    "Pair": "Coriobacteriales->Prob_Class_1",
+    "Mean_Causal_Effect": -0.3418788
+  },
+  {
+    "Pair": "Bacteroidales->Veillonellales",
+    "Mean_Causal_Effect": -0.3414436
+  },
+  {
+    "Pair": "Bacteroidales->Erysipelotrichales",
+    "Mean_Causal_Effect": -0.3329858
+  },
+  {
+    "Pair": "Eubacteriales->Prob_Class_1",
+    "Mean_Causal_Effect": 0.3328132
+  },
+  {
+    "Pair": "Acidobacteriales->Prob_Class_1",
+    "Mean_Causal_Effect": -0.3277615
+  },
+  {
+    "Pair": "Vibrionales->Prob_Class_1",
+    "Mean_Causal_Effect": -0.2600811
+  }
+]

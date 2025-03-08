@@ -1,0 +1,46 @@
+[
+  {
+    "Pair": "Eggerthellaceae->Coriobacteriaceae",
+    "Mean_Causal_Effect": 0.7621093
+  },
+  {
+    "Pair": "Bacteroidaceae->Prevotellaceae",
+    "Mean_Causal_Effect": -0.4292923
+  },
+  {
+    "Pair": "Desulfovibrionaceae->Odoribacteraceae",
+    "Mean_Causal_Effect": 0.3884083
+  },
+  {
+    "Pair": "Bacteroidaceae->Odoribacteraceae",
+    "Mean_Causal_Effect": 0.3739048
+  },
+  {
+    "Pair": "Coriobacteriaceae->Prob_Class_1",
+    "Mean_Causal_Effect": -0.3660983
+  },
+  {
+    "Pair": "Oxalobacteraceae->Barnesiellaceae",
+    "Mean_Causal_Effect": 0.3386155
+  },
+  {
+    "Pair": "Rikenellaceae->Barnesiellaceae",
+    "Mean_Causal_Effect": 0.3090606
+  },
+  {
+    "Pair": "Odoribacteraceae->Barnesiellaceae",
+    "Mean_Causal_Effect": 0.2938418
+  },
+  {
+    "Pair": "Barnesiellaceae->Prob_Class_1",
+    "Mean_Causal_Effect": 0.2804397
+  },
+  {
+    "Pair": "Oscillospiraceae->Prob_Class_1",
+    "Mean_Causal_Effect": 0.2802872
+  },
+  {
+    "Pair": "Prevotellaceae->Prob_Class_1",
+    "Mean_Causal_Effect": -0.2586468
+  }
+]

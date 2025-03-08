@@ -1,0 +1,194 @@
+[
+  {
+    "Pair": "Marinilabiliaceae->Dysgonomonadaceae",
+    "Mean_Causal_Effect": 0.87725361
+  },
+  {
+    "Pair": "Oscillospiraceae->Rikenellaceae",
+    "Mean_Causal_Effect": 0.66838705
+  },
+  {
+    "Pair": "Bacteroidaceae->Lachnospiraceae",
+    "Mean_Causal_Effect": 0.65674562
+  },
+  {
+    "Pair": "Lachnospiraceae->Clostridiaceae",
+    "Mean_Causal_Effect": 0.605439
+  },
+  {
+    "Pair": "Oscillospiraceae->Eubacteriales Family XIII. Incertae Sedis",
+    "Mean_Causal_Effect": 0.54340397
+  },
+  {
+    "Pair": "Lachnospiraceae->Oscillospiraceae",
+    "Mean_Causal_Effect": 0.52745153
+  },
+  {
+    "Pair": "Bacteroidaceae->Tannerellaceae",
+    "Mean_Causal_Effect": 0.48953675
+  },
+  {
+    "Pair": "Bifidobacteriaceae->Veillonellaceae",
+    "Mean_Causal_Effect": 0.47824056
+  },
+  {
+    "Pair": "Oscillospiraceae->Streptococcaceae",
+    "Mean_Causal_Effect": 0.46943223
+  },
+  {
+    "Pair": "Spirosomaceae->Prevotellaceae",
+    "Mean_Causal_Effect": 0.46331278
+  },
+  {
+    "Pair": "Bacteroidaceae->Streptococcaceae",
+    "Mean_Causal_Effect": 0.44104744
+  },
+  {
+    "Pair": "Lachnospiraceae->Erysipelotrichaceae",
+    "Mean_Causal_Effect": 0.41493269
+  },
+  {
+    "Pair": "Lachnospiraceae->Tannerellaceae",
+    "Mean_Causal_Effect": 0.40353976
+  },
+  {
+    "Pair": "Bifidobacteriaceae->Eubacteriales Family XIII. Incertae Sedis",
+    "Mean_Causal_Effect": 0.39970673
+  },
+  {
+    "Pair": "Oscillospiraceae->Peptostreptococcaceae",
+    "Mean_Causal_Effect": 0.39151576
+  },
+  {
+    "Pair": "Bifidobacteriaceae->Peptostreptococcaceae",
+    "Mean_Causal_Effect": 0.38471976
+  },
+  {
+    "Pair": "Dysgonomonadaceae->Muribaculaceae",
+    "Mean_Causal_Effect": 0.37735373
+  },
+  {
+    "Pair": "Clostridiaceae->Peptostreptococcaceae",
+    "Mean_Causal_Effect": 0.35874331
+  },
+  {
+    "Pair": "Spirosomaceae->Eubacteriales Family XIII. Incertae Sedis",
+    "Mean_Causal_Effect": 0.32653585
+  },
+  {
+    "Pair": "Eubacteriales Family XIII. Incertae Sedis->Erysipelotrichaceae",
+    "Mean_Causal_Effect": 0.32331167
+  },
+  {
+    "Pair": "Bacteroidaceae->Pasteurellaceae",
+    "Mean_Causal_Effect": 0.31922209
+  },
+  {
+    "Pair": "Lachnospiraceae->Pasteurellaceae",
+    "Mean_Causal_Effect": 0.29745386
+  },
+  {
+    "Pair": "Lachnospiraceae->Veillonellaceae",
+    "Mean_Causal_Effect": 0.28500585
+  },
+  {
+    "Pair": "Streptococcaceae->Pasteurellaceae",
+    "Mean_Causal_Effect": 0.22656217
+  },
+  {
+    "Pair": "Melioribacteraceae->Prob_Class_1",
+    "Mean_Causal_Effect": 0.21999552
+  },
+  {
+    "Pair": "Erysipelotrichaceae->Tannerellaceae",
+    "Mean_Causal_Effect": 0.21990204
+  },
+  {
+    "Pair": "Rikenellaceae->Tannerellaceae",
+    "Mean_Causal_Effect": 0.21393511
+  },
+  {
+    "Pair": "Microviridae->Bacteroidaceae",
+    "Mean_Causal_Effect": 0.21029718
+  },
+  {
+    "Pair": "Microviridae->Rikenellaceae",
+    "Mean_Causal_Effect": 0.20192666
+  },
+  {
+    "Pair": "Tannerellaceae->Neisseriaceae",
+    "Mean_Causal_Effect": 0.1892111
+  },
+  {
+    "Pair": "Dysgonomonadaceae->Prevotellaceae",
+    "Mean_Causal_Effect": 0.18777328
+  },
+  {
+    "Pair": "Eubacteriales Family XIII. Incertae Sedis->Marinilabiliaceae",
+    "Mean_Causal_Effect": 0.18606964
+  },
+  {
+    "Pair": "Prevotellaceae->Pasteurellaceae",
+    "Mean_Causal_Effect": 0.18190257
+  },
+  {
+    "Pair": "Neisseriaceae->Prob_Class_1",
+    "Mean_Causal_Effect": -0.18104929
+  },
+  {
+    "Pair": "Oscillospiraceae->Clostridiaceae",
+    "Mean_Causal_Effect": 0.18045122
+  },
+  {
+    "Pair": "Clostridiaceae->Oscillospiraceae",
+    "Mean_Causal_Effect": 0.18039553
+  },
+  {
+    "Pair": "Akkermansiaceae->Rikenellaceae",
+    "Mean_Causal_Effect": 0.17429617
+  },
+  {
+    "Pair": "Eubacteriales Family XIII. Incertae Sedis->Rikenellaceae",
+    "Mean_Causal_Effect": 0.17022625
+  },
+  {
+    "Pair": "Veillonellaceae->Marinilabiliaceae",
+    "Mean_Causal_Effect": 0.16710111
+  },
+  {
+    "Pair": "Prevotellaceae->Veillonellaceae",
+    "Mean_Causal_Effect": 0.16622609
+  },
+  {
+    "Pair": "Akkermansiaceae->Streptococcaceae",
+    "Mean_Causal_Effect": 0.1646867
+  },
+  {
+    "Pair": "Lachnospiraceae->Melioribacteraceae",
+    "Mean_Causal_Effect": 0.15525575
+  },
+  {
+    "Pair": "Pasteurellaceae->Neisseriaceae",
+    "Mean_Causal_Effect": 0.15460029
+  },
+  {
+    "Pair": "Peptostreptococcaceae->Neisseriaceae",
+    "Mean_Causal_Effect": 0.14395454
+  },
+  {
+    "Pair": "Eubacteriales Family XIII. Incertae Sedis->Akkermansiaceae",
+    "Mean_Causal_Effect": 0.13869894
+  },
+  {
+    "Pair": "Muribaculaceae->Tannerellaceae",
+    "Mean_Causal_Effect": 0.11728674
+  },
+  {
+    "Pair": "Prevotellaceae->Prob_Class_1",
+    "Mean_Causal_Effect": -0.09511528
+  },
+  {
+    "Pair": "Melioribacteraceae->Pasteurellaceae",
+    "Mean_Causal_Effect": 0.06961742
+  }
+]

@@ -1,0 +1,34 @@
+[
+  {
+    "Pair": "Lachnobacterium->Prob_Class_1",
+    "Mean_Causal_Effect": -0.5384775
+  },
+  {
+    "Pair": "Butyricimonas->Prob_Class_1",
+    "Mean_Causal_Effect": 0.3602782
+  },
+  {
+    "Pair": "Allobaculum->Candidatus Nardonella",
+    "Mean_Causal_Effect": 0.3163055
+  },
+  {
+    "Pair": "Candidatus Nardonella->Prob_Class_1",
+    "Mean_Causal_Effect": -0.2400312
+  },
+  {
+    "Pair": "Erysipelatoclostridium->Prob_Class_1",
+    "Mean_Causal_Effect": -0.2007116
+  },
+  {
+    "Pair": "Clostridioides->Prob_Class_1",
+    "Mean_Causal_Effect": 0.1882029
+  },
+  {
+    "Pair": "Salmonella->Clostridioides",
+    "Mean_Causal_Effect": 0.1841732
+  },
+  {
+    "Pair": "Clostridium->Salmonella",
+    "Mean_Causal_Effect": 0.1549307
+  }
+]

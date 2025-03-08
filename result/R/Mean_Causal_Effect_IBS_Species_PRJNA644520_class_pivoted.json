@@ -1,0 +1,30 @@
+[
+  {
+    "Pair": "Bacteroidia->Clostridia",
+    "Mean_Causal_Effect": 0.5805299
+  },
+  {
+    "Pair": "Clostridia->Alphaproteobacteria",
+    "Mean_Causal_Effect": 0.3724715
+  },
+  {
+    "Pair": "Erysipelotrichia->Prob_Class_1",
+    "Mean_Causal_Effect": -0.1917011
+  },
+  {
+    "Pair": "Chitinophagia->Prob_Class_1",
+    "Mean_Causal_Effect": -0.1674942
+  },
+  {
+    "Pair": "Clostridia->Erysipelotrichia",
+    "Mean_Causal_Effect": 0.1539441
+  },
+  {
+    "Pair": "Bacilli->Chitinophagia",
+    "Mean_Causal_Effect": 0.1430158
+  },
+  {
+    "Pair": "Alphaproteobacteria->Prob_Class_1",
+    "Mean_Causal_Effect": 0.1325745
+  }
+]

@@ -16,7 +16,56 @@ class FastCausalInference:
         self.regression_models = {}
         self.feature_depths = {}
         self.path_cache = {}
-        self.causal_paths = {}  
+        self.causal_paths = {} 
+
+    def remove_cycles(self):
+        """
+        Detects cycles in the graph and removes edges causing cycles.
+        Returns a list of removed edges.
+        """
+        G = self.ida_graph.copy()
+        removed_edges = []
+        
+        # Find all cycles in the graph
+        try:
+            cycles = list(nx.simple_cycles(G))
+        except nx.NetworkXNoCycle:
+            return []  # No cycles found
+        
+        while cycles:
+            # Get the current cycle
+            cycle = cycles[0]
+            
+            # Find the edge with the smallest weight in the cycle
+            min_weight = float('inf')
+            edge_to_remove = None
+            
+            for i in range(len(cycle)):
+                source = cycle[i]
+                target = cycle[(i + 1) % len(cycle)]
+                
+                if G.has_edge(source, target):
+                    weight = abs(G[source][target]['weight'])
+                    if weight < min_weight:
+                        min_weight = weight
+                        edge_to_remove = (source, target)
+            
+            if edge_to_remove:
+                # Remove the edge with the smallest weight
+                G.remove_edge(*edge_to_remove)
+                removed_edges.append((edge_to_remove[0], edge_to_remove[1], self.ida_graph[edge_to_remove[0]][edge_to_remove[1]]['weight']))
+                
+                # Recalculate cycles after removing an edge
+                try:
+                    cycles = list(nx.simple_cycles(G))
+                except nx.NetworkXNoCycle:
+                    cycles = []  # No more cycles
+            else:
+                break
+        
+        # Update the graph
+        self.ida_graph = G
+        return removed_edges 
         
     def _compute_causal_paths(self):
         """Compute and store all causal paths to target for each feature."""
@@ -47,6 +96,13 @@ class FastCausalInference:
             target = target.strip()
             G.add_edge(source, target, weight=mean_causal_effect)
         self.ida_graph = G.copy()
+
+        removed_edges = self.remove_cycles()
+        if removed_edges:
+            print(f"Removed {len(removed_edges)} edges to make the graph acyclic:")
+            for source, target, weight in removed_edges:
+                print(f"  {source} -> {target} (weight: {weight})")
+
         self._compute_feature_depths()
         self._compute_causal_paths()
         features = self.data.columns.tolist()

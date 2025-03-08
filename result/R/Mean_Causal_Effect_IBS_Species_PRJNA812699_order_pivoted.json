@@ -1,0 +1,182 @@
+[
+  {
+    "Pair": "Bacteroidales->Eubacteriales",
+    "Mean_Causal_Effect": 0.72616288
+  },
+  {
+    "Pair": "Lactobacillales->Actinomycetales",
+    "Mean_Causal_Effect": 0.65153274
+  },
+  {
+    "Pair": "Eggerthellales->Actinomycetales",
+    "Mean_Causal_Effect": 0.59332861
+  },
+  {
+    "Pair": "Eubacteriales->Tissierellales",
+    "Mean_Causal_Effect": 0.5549569
+  },
+  {
+    "Pair": "Eggerthellales->Tissierellales",
+    "Mean_Causal_Effect": 0.55458564
+  },
+  {
+    "Pair": "Methanobacteriales->Coriobacteriales",
+    "Mean_Causal_Effect": 0.54051424
+  },
+  {
+    "Pair": "Burkholderiales->Bacteroidales",
+    "Mean_Causal_Effect": 0.53747399
+  },
+  {
+    "Pair": "Eubacteriales->Erysipelotrichales",
+    "Mean_Causal_Effect": 0.47617225
+  },
+  {
+    "Pair": "Bacteroidales->Actinomycetales",
+    "Mean_Causal_Effect": 0.44326152
+  },
+  {
+    "Pair": "Eggerthellales->Ignavibacteriales",
+    "Mean_Causal_Effect": 0.4336452
+  },
+  {
+    "Pair": "Lactobacillales->Bifidobacteriales",
+    "Mean_Causal_Effect": 0.39411743
+  },
+  {
+    "Pair": "Bacteroidales->Pasteurellales",
+    "Mean_Causal_Effect": 0.38993424
+  },
+  {
+    "Pair": "Erysipelotrichales->Coriobacteriales",
+    "Mean_Causal_Effect": 0.36631887
+  },
+  {
+    "Pair": "Cytophagales->Eubacteriales",
+    "Mean_Causal_Effect": 0.35554126
+  },
+  {
+    "Pair": "Eggerthellales->Coriobacteriales",
+    "Mean_Causal_Effect": 0.33743789
+  },
+  {
+    "Pair": "Burkholderiales->Acidaminococcales",
+    "Mean_Causal_Effect": 0.316293
+  },
+  {
+    "Pair": "Eubacteriales->Enterobacterales",
+    "Mean_Causal_Effect": 0.31564971
+  },
+  {
+    "Pair": "Methanobacteriales->Ignavibacteriales",
+    "Mean_Causal_Effect": 0.31306614
+  },
+  {
+    "Pair": "Bifidobacteriales->Tissierellales",
+    "Mean_Causal_Effect": 0.31158362
+  },
+  {
+    "Pair": "Actinomycetales->Tissierellales",
+    "Mean_Causal_Effect": 0.28238242
+  },
+  {
+    "Pair": "Bacteroidales->Acidaminococcales",
+    "Mean_Causal_Effect": 0.27683788
+  },
+  {
+    "Pair": "Cytophagales->Sphingobacteriales",
+    "Mean_Causal_Effect": 0.27565586
+  },
+  {
+    "Pair": "Bifidobacteriales->Coriobacteriales",
+    "Mean_Causal_Effect": 0.27517732
+  },
+  {
+    "Pair": "Eubacteriales->Pasteurellales",
+    "Mean_Causal_Effect": 0.27373692
+  },
+  {
+    "Pair": "Marinilabiliales->Bacteroidales",
+    "Mean_Causal_Effect": 0.2705491
+  },
+  {
+    "Pair": "Acidaminococcales->Tissierellales",
+    "Mean_Causal_Effect": 0.25613821
+  },
+  {
+    "Pair": "Eggerthellales->Verrucomicrobiales",
+    "Mean_Causal_Effect": 0.24867188
+  },
+  {
+    "Pair": "Erysipelotrichales->Actinomycetales",
+    "Mean_Causal_Effect": 0.24553007
+  },
+  {
+    "Pair": "Erysipelotrichales->Acidaminococcales",
+    "Mean_Causal_Effect": 0.24440446
+  },
+  {
+    "Pair": "Marinilabiliales->Sphingobacteriales",
+    "Mean_Causal_Effect": 0.24358954
+  },
+  {
+    "Pair": "Ignavibacteriales->Spirochaetales",
+    "Mean_Causal_Effect": 0.23504821
+  },
+  {
+    "Pair": "Petitvirales->Bacteroidales",
+    "Mean_Causal_Effect": 0.23415716
+  },
+  {
+    "Pair": "Enterobacterales->Verrucomicrobiales",
+    "Mean_Causal_Effect": 0.23074313
+  },
+  {
+    "Pair": "Coriobacteriales->Neisseriales",
+    "Mean_Causal_Effect": 0.19564465
+  },
+  {
+    "Pair": "Coriobacteriales->Sphingobacteriales",
+    "Mean_Causal_Effect": 0.19455616
+  },
+  {
+    "Pair": "Neisseriales->Prob_Class_1",
+    "Mean_Causal_Effect": -0.18175038
+  },
+  {
+    "Pair": "Neisseriales->Spirochaetales",
+    "Mean_Causal_Effect": 0.18074894
+  },
+  {
+    "Pair": "Sphingobacteriales->Spirochaetales",
+    "Mean_Causal_Effect": 0.1685854
+  },
+  {
+    "Pair": "Tissierellales->Spirochaetales",
+    "Mean_Causal_Effect": 0.15940808
+  },
+  {
+    "Pair": "Pasteurellales->Neisseriales",
+    "Mean_Causal_Effect": 0.1390669
+  },
+  {
+    "Pair": "Ignavibacteriales->Verrucomicrobiales",
+    "Mean_Causal_Effect": 0.13411575
+  },
+  {
+    "Pair": "Spirochaetales->Prob_Class_1",
+    "Mean_Causal_Effect": -0.1122875
+  },
+  {
+    "Pair": "Verrucomicrobiales->Spirochaetales",
+    "Mean_Causal_Effect": 0.10612694
+  },
+  {
+    "Pair": "Fusobacteriales->Pasteurellales",
+    "Mean_Causal_Effect": 0.09786714
+  },
+  {
+    "Pair": "Enterobacterales->Prob_Class_1",
+    "Mean_Causal_Effect": -0.08930099
+  }
+]

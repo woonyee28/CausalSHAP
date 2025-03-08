@@ -1,0 +1,30 @@
+[
+  {
+    "Pair": "Gammaproteobacteria->Clostridia",
+    "Mean_Causal_Effect": -0.4892482
+  },
+  {
+    "Pair": "Bacteroidia->Gammaproteobacteria",
+    "Mean_Causal_Effect": -0.4511636
+  },
+  {
+    "Pair": "Coriobacteriia->Prob_Class_1",
+    "Mean_Causal_Effect": -0.3765498
+  },
+  {
+    "Pair": "Blastocatellia->Prob_Class_1",
+    "Mean_Causal_Effect": -0.3194747
+  },
+  {
+    "Pair": "Clostridia->Prob_Class_1",
+    "Mean_Causal_Effect": 0.2925217
+  },
+  {
+    "Pair": "Bacteroidia->Blastocatellia",
+    "Mean_Causal_Effect": 0.2800407
+  },
+  {
+    "Pair": "Verrucomicrobiae->Blastocatellia",
+    "Mean_Causal_Effect": 0.2549369
+  }
+]

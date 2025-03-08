@@ -1,0 +1,46 @@
+[
+  {
+    "Pair": "Collinsella->Frisingicoccus",
+    "Mean_Causal_Effect": 0.5465609
+  },
+  {
+    "Pair": "Lactobacillus->Klebsiella",
+    "Mean_Causal_Effect": 0.4785043
+  },
+  {
+    "Pair": "Fusicatenibacter->Collinsella",
+    "Mean_Causal_Effect": 0.4574666
+  },
+  {
+    "Pair": "Klebsiella->Collinsella",
+    "Mean_Causal_Effect": 0.428469
+  },
+  {
+    "Pair": "Dielma->Prob_Class_1",
+    "Mean_Causal_Effect": -0.4157557
+  },
+  {
+    "Pair": "Lactococcus->Prob_Class_1",
+    "Mean_Causal_Effect": -0.3523924
+  },
+  {
+    "Pair": "Frisingicoccus->Prob_Class_1",
+    "Mean_Causal_Effect": -0.3322097
+  },
+  {
+    "Pair": "Prevotella->Prob_Class_1",
+    "Mean_Causal_Effect": -0.2840979
+  },
+  {
+    "Pair": "Parabacteroides->Barnesiella",
+    "Mean_Causal_Effect": 0.2402662
+  },
+  {
+    "Pair": "Barnesiella->Prob_Class_1",
+    "Mean_Causal_Effect": 0.2368574
+  },
+  {
+    "Pair": "Phascolarctobacterium->Lactobacillus",
+    "Mean_Causal_Effect": 0.2114567
+  }
+]

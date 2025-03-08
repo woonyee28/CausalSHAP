@@ -1,0 +1,50 @@
+[
+  {
+    "Pair": "Tannerellaceae->Lachnospiraceae",
+    "Mean_Causal_Effect": 0.6510677
+  },
+  {
+    "Pair": "Ruminococcaceae->Tannerellaceae",
+    "Mean_Causal_Effect": 0.5233711
+  },
+  {
+    "Pair": "Lachnospiraceae->Prob_Class_1",
+    "Mean_Causal_Effect": -0.4570877
+  },
+  {
+    "Pair": "Clostridiaceae->Lachnospiraceae",
+    "Mean_Causal_Effect": 0.3249732
+  },
+  {
+    "Pair": "Lachnospiraceae->Prolixibacteraceae",
+    "Mean_Causal_Effect": 0.243382
+  },
+  {
+    "Pair": "Prolixibacteraceae->Bacillaceae",
+    "Mean_Causal_Effect": 0.2226581
+  },
+  {
+    "Pair": "Enterobacteriaceae->Bacillaceae",
+    "Mean_Causal_Effect": 0.2187108
+  },
+  {
+    "Pair": "Erysipelotrichaceae->Prob_Class_1",
+    "Mean_Causal_Effect": -0.2157058
+  },
+  {
+    "Pair": "Eggerthellaceae->Prob_Class_1",
+    "Mean_Causal_Effect": -0.2122379
+  },
+  {
+    "Pair": "Peptococcaceae->Prob_Class_1",
+    "Mean_Causal_Effect": -0.2008707
+  },
+  {
+    "Pair": "Bacillaceae->Chitinophagaceae",
+    "Mean_Causal_Effect": 0.1628623
+  },
+  {
+    "Pair": "Chitinophagaceae->Prob_Class_1",
+    "Mean_Causal_Effect": -0.1420632
+  }
+]

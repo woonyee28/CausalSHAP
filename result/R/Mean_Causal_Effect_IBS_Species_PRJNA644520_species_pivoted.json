@@ -1,0 +1,14 @@
+[
+  {"Pair": "[Clostridium] spiroforme->Prob_Class_1", "Mean_Causal_Effect": -0.3789842},
+  {"Pair": "Alterileibacterium massiliense->Parabacteroides distasonis", "Mean_Causal_Effect": 0.3368144},
+  {"Pair": "Candidatus Nardonella dryophthoridicola->Prob_Class_1", "Mean_Causal_Effect": -0.3358575},
+  {"Pair": "Prolixibacter sp. SD074->Parabacteroides distasonis", "Mean_Causal_Effect": 0.3310706},
+  {"Pair": "Clostridioides difficile->Prob_Class_1", "Mean_Causal_Effect": 0.3211480},
+  {"Pair": "Lachnobacterium bovis->Prob_Class_1", "Mean_Causal_Effect": -0.3190109},
+  {"Pair": "Allobaculum stercoricanis->Candidatus Nardonella dryophthoridicola", "Mean_Causal_Effect": 0.3161098},
+  {"Pair": "Bacteroides thetaiotaomicron->Clostridium sp. SS2/1", "Mean_Causal_Effect": 0.2732816},
+  {"Pair": "Candidatus Azobacteroides pseudotrichonymphae->Prolixibacter sp. SD074", "Mean_Causal_Effect": 0.2589924},
+  {"Pair": "Parabacteroides distasonis->Prob_Class_1", "Mean_Causal_Effect": -0.2234314},
+  {"Pair": "Clostridium sp. SS2/1->Prob_Class_1", "Mean_Causal_Effect": 0.2192537},
+  {"Pair": "Fusibacter sp. 3D3->Clostridium sp. SS2/1", "Mean_Causal_Effect": 0.1821322}
+ ]

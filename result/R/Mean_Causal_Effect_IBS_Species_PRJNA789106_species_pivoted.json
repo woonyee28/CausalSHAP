@@ -1,0 +1,34 @@
+[
+  {
+    "Pair": "Bacteroides acidifaciens->Dielma fastidiosa",
+    "Mean_Causal_Effect": 0.5587362
+  },
+  {
+    "Pair": "Prevotella oralis->Prevotella copri",
+    "Mean_Causal_Effect": 0.412636
+  },
+  {
+    "Pair": "Klebsiella variicola->Bacteroides acidifaciens",
+    "Mean_Causal_Effect": 0.4628224
+  },
+  {
+    "Pair": "Dielma fastidiosa->Prob_Class_1",
+    "Mean_Causal_Effect": -0.5656281
+  },
+  {
+    "Pair": "Prevotella copri->Prob_Class_1",
+    "Mean_Causal_Effect": -0.2591
+  },
+  {
+    "Pair": "Prevotella oralis->Prob_Class_1",
+    "Mean_Causal_Effect": -0.3298725
+  },
+  {
+    "Pair": "[Eubacterium] rectale->Prob_Class_1",
+    "Mean_Causal_Effect": -0.3335012
+  },
+  {
+    "Pair": "Bacteroides ovatus->Dielma fastidiosa",
+    "Mean_Causal_Effect": 0.1972658
+  }
+]

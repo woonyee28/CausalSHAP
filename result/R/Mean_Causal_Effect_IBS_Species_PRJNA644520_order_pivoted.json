@@ -1,0 +1,50 @@
+[
+  {
+    "Pair": "Bacteroidales->Clostridiales",
+    "Mean_Causal_Effect": 0.4320731
+  },
+  {
+    "Pair": "Clostridiales->Marinilabiliales",
+    "Mean_Causal_Effect": 0.3847424
+  },
+  {
+    "Pair": "Erysipelotrichales->Prob_Class_1",
+    "Mean_Causal_Effect": -0.3013588
+  },
+  {
+    "Pair": "Micrococcales->Lactobacillales",
+    "Mean_Causal_Effect": 0.2927525
+  },
+  {
+    "Pair": "Primates->Enterobacterales",
+    "Mean_Causal_Effect": 0.2762689
+  },
+  {
+    "Pair": "Pasteurellales->Primates",
+    "Mean_Causal_Effect": 0.2594886
+  },
+  {
+    "Pair": "Eggerthellales->Prob_Class_1",
+    "Mean_Causal_Effect": -0.252304
+  },
+  {
+    "Pair": "Enterobacterales->Prob_Class_1",
+    "Mean_Causal_Effect": 0.251981
+  },
+  {
+    "Pair": "Lactobacillales->Prob_Class_1",
+    "Mean_Causal_Effect": 0.2357903
+  },
+  {
+    "Pair": "Marinilabiliales->Primates",
+    "Mean_Causal_Effect": 0.1743666
+  },
+  {
+    "Pair": "Candidatus Gastranaerophilales->Clostridiales",
+    "Mean_Causal_Effect": 0.1537773
+  },
+  {
+    "Pair": "Marinilabiliales->Bacteroidales",
+    "Mean_Causal_Effect": 0.1355826
+  }
+]

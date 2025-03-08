@@ -1,0 +1,266 @@
+[
+  {
+    "Pair": "Bacteroidia->Clostridia",
+    "Mean_Causal_Effect": 0.73524989
+  },
+  {
+    "Pair": "Clostridia->Chthonomonadetes",
+    "Mean_Causal_Effect": 0.7064926
+  },
+  {
+    "Pair": "Clostridia->Chloroflexia",
+    "Mean_Causal_Effect": 0.68519597
+  },
+  {
+    "Pair": "Clostridia->Chitinophagia",
+    "Mean_Causal_Effect": 0.61664207
+  },
+  {
+    "Pair": "Clostridia->Tissierellia",
+    "Mean_Causal_Effect": 0.56977479
+  },
+  {
+    "Pair": "Clostridia->Epsilonproteobacteria",
+    "Mean_Causal_Effect": 0.5664964
+  },
+  {
+    "Pair": "Actinomycetia->Blastocatellia",
+    "Mean_Causal_Effect": 0.56588675
+  },
+  {
+    "Pair": "Betaproteobacteria->Bacteroidia",
+    "Mean_Causal_Effect": 0.54109894
+  },
+  {
+    "Pair": "Coriobacteriia->Erysipelotrichia",
+    "Mean_Causal_Effect": 0.50972013
+  },
+  {
+    "Pair": "Bacteroidia->Deltaproteobacteria",
+    "Mean_Causal_Effect": 0.47438259
+  },
+  {
+    "Pair": "Clostridia->Erysipelotrichia",
+    "Mean_Causal_Effect": 0.44858743
+  },
+  {
+    "Pair": "Ignavibacteria->Deltaproteobacteria",
+    "Mean_Causal_Effect": 0.44719473
+  },
+  {
+    "Pair": "Clostridia->Deltaproteobacteria",
+    "Mean_Causal_Effect": 0.44051344
+  },
+  {
+    "Pair": "Coriobacteriia->Chthonomonadetes",
+    "Mean_Causal_Effect": 0.42913438
+  },
+  {
+    "Pair": "Coriobacteriia->Actinomycetia",
+    "Mean_Causal_Effect": 0.4290179
+  },
+  {
+    "Pair": "Bacilli->Clostridia",
+    "Mean_Causal_Effect": 0.41697753
+  },
+  {
+    "Pair": "Coriobacteriia->Bacilli",
+    "Mean_Causal_Effect": 0.40765024
+  },
+  {
+    "Pair": "Betaproteobacteria->Deltaproteobacteria",
+    "Mean_Causal_Effect": 0.39436306
+  },
+  {
+    "Pair": "Clostridia->Gammaproteobacteria",
+    "Mean_Causal_Effect": 0.38253423
+  },
+  {
+    "Pair": "Caldilineae->Chitinophagia",
+    "Mean_Causal_Effect": 0.38164989
+  },
+  {
+    "Pair": "Ignavibacteria->Epsilonproteobacteria",
+    "Mean_Causal_Effect": 0.38004211
+  },
+  {
+    "Pair": "Bacteroidia->Flavobacteriia",
+    "Mean_Causal_Effect": 0.37827204
+  },
+  {
+    "Pair": "Coriobacteriia->Sphingobacteriia",
+    "Mean_Causal_Effect": 0.34831448
+  },
+  {
+    "Pair": "Clostridia->Cytophagia",
+    "Mean_Causal_Effect": 0.33565668
+  },
+  {
+    "Pair": "Betaproteobacteria->Actinomycetia",
+    "Mean_Causal_Effect": 0.32935881
+  },
+  {
+    "Pair": "Bacilli->Actinomycetia",
+    "Mean_Causal_Effect": 0.32553168
+  },
+  {
+    "Pair": "Bacilli->Epsilonproteobacteria",
+    "Mean_Causal_Effect": 0.3254107
+  },
+  {
+    "Pair": "Actinomycetia->Flavobacteriia",
+    "Mean_Causal_Effect": 0.32383368
+  },
+  {
+    "Pair": "Sphingobacteriia->Chloroflexia",
+    "Mean_Causal_Effect": 0.30856108
+  },
+  {
+    "Pair": "Tissierellia->Caldilineae",
+    "Mean_Causal_Effect": 0.29086471
+  },
+  {
+    "Pair": "Betaproteobacteria->Negativicutes",
+    "Mean_Causal_Effect": 0.26427278
+  },
+  {
+    "Pair": "Actinomycetia->Tissierellia",
+    "Mean_Causal_Effect": 0.25812514
+  },
+  {
+    "Pair": "Coriobacteriia->Verrucomicrobiae",
+    "Mean_Causal_Effect": 0.24082293
+  },
+  {
+    "Pair": "Ignavibacteria->Verrucomicrobiae",
+    "Mean_Causal_Effect": 0.23863487
+  },
+  {
+    "Pair": "Spirochaetia->Chthonomonadetes",
+    "Mean_Causal_Effect": 0.23685891
+  },
+  {
+    "Pair": "Malgrandaviricetes->Bacteroidia",
+    "Mean_Causal_Effect": 0.23375068
+  },
+  {
+    "Pair": "Tissierellia->Chitinophagia",
+    "Mean_Causal_Effect": 0.22861806
+  },
+  {
+    "Pair": "Deltaproteobacteria->Chthonomonadetes",
+    "Mean_Causal_Effect": 0.22698307
+  },
+  {
+    "Pair": "Actinomycetia->Negativicutes",
+    "Mean_Causal_Effect": 0.21341076
+  },
+  {
+    "Pair": "Caldilineae->Chthonomonadetes",
+    "Mean_Causal_Effect": 0.21306849
+  },
+  {
+    "Pair": "Epsilonproteobacteria->Flavobacteriia",
+    "Mean_Causal_Effect": 0.20342304
+  },
+  {
+    "Pair": "Bacteroidia->Negativicutes",
+    "Mean_Causal_Effect": 0.18814749
+  },
+  {
+    "Pair": "Chitinophagia->Blastocatellia",
+    "Mean_Causal_Effect": 0.18569982
+  },
+  {
+    "Pair": "Gammaproteobacteria->Chitinophagia",
+    "Mean_Causal_Effect": 0.17731825
+  },
+  {
+    "Pair": "Gammaproteobacteria->Verrucomicrobiae",
+    "Mean_Causal_Effect": 0.1739166
+  },
+  {
+    "Pair": "Flavobacteriia->Chloroflexia",
+    "Mean_Causal_Effect": 0.15853304
+  },
+  {
+    "Pair": "Mollicutes->Chitinophagia",
+    "Mean_Causal_Effect": 0.1551461
+  },
+  {
+    "Pair": "Verrucomicrobiae->Blastocatellia",
+    "Mean_Causal_Effect": 0.15090263
+  },
+  {
+    "Pair": "Cytophagia->Sphingobacteriia",
+    "Mean_Causal_Effect": 0.14697648
+  },
+  {
+    "Pair": "Chthonomonadetes->Prob_Class_1",
+    "Mean_Causal_Effect": -0.14657723
+  },
+  {
+    "Pair": "Erysipelotrichia->Deltaproteobacteria",
+    "Mean_Causal_Effect": 0.14091458
+  },
+  {
+    "Pair": "Erysipelotrichia->Chthonomonadetes",
+    "Mean_Causal_Effect": 0.13227051
+  },
+  {
+    "Pair": "Gammaproteobacteria->Mollicutes",
+    "Mean_Causal_Effect": 0.12873313
+  },
+  {
+    "Pair": "Cytophagia->Chthonomonadetes",
+    "Mean_Causal_Effect": 0.12489522
+  },
+  {
+    "Pair": "Mollicutes->Blastocatellia",
+    "Mean_Causal_Effect": 0.1226005
+  },
+  {
+    "Pair": "Verrucomicrobiae->Flavobacteriia",
+    "Mean_Causal_Effect": 0.11587906
+  },
+  {
+    "Pair": "Verrucomicrobiae->Deltaproteobacteria",
+    "Mean_Causal_Effect": 0.10374346
+  },
+  {
+    "Pair": "Cytophagia->Chitinophagia",
+    "Mean_Causal_Effect": 0.102957
+  },
+  {
+    "Pair": "Chloroflexia->Prob_Class_1",
+    "Mean_Causal_Effect": -0.10173228
+  },
+  {
+    "Pair": "Chloroflexia->Chthonomonadetes",
+    "Mean_Causal_Effect": 0.09954713
+  },
+  {
+    "Pair": "Erysipelotrichia->Gammaproteobacteria",
+    "Mean_Causal_Effect": 0.09416842
+  },
+  {
+    "Pair": "Epsilonproteobacteria->Deltaproteobacteria",
+    "Mean_Causal_Effect": 0.08915232
+  },
+  {
+    "Pair": "Fusobacteriia->Chloroflexia",
+    "Mean_Causal_Effect": 0.0889502
+  },
+  {
+    "Pair": "Gammaproteobacteria->Prob_Class_1",
+    "Mean_Causal_Effect": -0.08319089
+  },
+  {
+    "Pair": "Negativicutes->Fusobacteriia",
+    "Mean_Causal_Effect": 0.0783456
+  },
+  {
+    "Pair": "Blastocatellia->Chthonomonadetes",
+    "Mean_Causal_Effect": 0.06540036
+  }
+]
