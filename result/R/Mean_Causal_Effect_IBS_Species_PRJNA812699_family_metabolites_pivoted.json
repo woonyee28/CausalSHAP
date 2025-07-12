@@ -1,0 +1,234 @@
+[
+  {
+    "Pair": "Dysgonomonadaceae->Marinilabiliaceae",
+    "Mean_Causal_Effect": 0.8839524
+  },
+  {
+    "Pair": "Clostridiaceae->Oscillospiraceae",
+    "Mean_Causal_Effect": 0.5759081
+  },
+  {
+    "Pair": "Lachnospiraceae->Bacteroidaceae",
+    "Mean_Causal_Effect": 0.5608586
+  },
+  {
+    "Pair": "Rikenellaceae->Oscillospiraceae",
+    "Mean_Causal_Effect": 0.5496674
+  },
+  {
+    "Pair": "Lachnospiraceae->Streptococcaceae",
+    "Mean_Causal_Effect": 0.5192388
+  },
+  {
+    "Pair": "Oscillospiraceae->Streptococcaceae",
+    "Mean_Causal_Effect": 0.5041374
+  },
+  {
+    "Pair": "Lachnospiraceae->Erysipelotrichaceae",
+    "Mean_Causal_Effect": 0.5025633
+  },
+  {
+    "Pair": "xylose->salicylate",
+    "Mean_Causal_Effect": 0.4640242
+  },
+  {
+    "Pair": "Bifidobacteriaceae->Eubacteriales Family XIII. Incertae Sedis",
+    "Mean_Causal_Effect": 0.4628669
+  },
+  {
+    "Pair": "Oscillospiraceae->Veillonellaceae",
+    "Mean_Causal_Effect": 0.4464093
+  },
+  {
+    "Pair": "Eubacteriales Family XIII. Incertae Sedis->Erysipelotrichaceae",
+    "Mean_Causal_Effect": 0.4458282
+  },
+  {
+    "Pair": "Spirosomaceae->Prevotellaceae",
+    "Mean_Causal_Effect": 0.4425178
+  },
+  {
+    "Pair": "Bifidobacteriaceae->Streptococcaceae",
+    "Mean_Causal_Effect": 0.4354005
+  },
+  {
+    "Pair": "xylose->Prob_Class_1",
+    "Mean_Causal_Effect": -0.3749359
+  },
+  {
+    "Pair": "xanthosine->trigonelline (N'-methylnicotinate)",
+    "Mean_Causal_Effect": 0.3640284
+  },
+  {
+    "Pair": "Clostridiaceae->Lachnospiraceae",
+    "Mean_Causal_Effect": 0.3619321
+  },
+  {
+    "Pair": "Lachnospiraceae->Clostridiaceae",
+    "Mean_Causal_Effect": 0.3619321
+  },
+  {
+    "Pair": "Marinilabiliaceae->valine betaine",
+    "Mean_Causal_Effect": -0.3522923
+  },
+  {
+    "Pair": "Marinilabiliaceae->Neisseriaceae",
+    "Mean_Causal_Effect": 0.3517580
+  },
+  {
+    "Pair": "Bifidobacteriaceae->Veillonellaceae",
+    "Mean_Causal_Effect": 0.3325246
+  },
+  {
+    "Pair": "valine betaine->Prob_Class_1",
+    "Mean_Causal_Effect": -0.3188575
+  },
+  {
+    "Pair": "Lachnospiraceae->Pasteurellaceae",
+    "Mean_Causal_Effect": 0.3145049
+  },
+  {
+    "Pair": "xylose->sphingosine",
+    "Mean_Causal_Effect": 0.3056442
+  },
+  {
+    "Pair": "Bacteroidaceae->Microviridae",
+    "Mean_Causal_Effect": 0.3032108
+  },
+  {
+    "Pair": "Bacteroidaceae->Eubacteriales Family XIII. Incertae Sedis",
+    "Mean_Causal_Effect": 0.2991295
+  },
+  {
+    "Pair": "Streptococcaceae->Pasteurellaceae",
+    "Mean_Causal_Effect": 0.2969885
+  },
+  {
+    "Pair": "Akkermansiaceae->Rikenellaceae",
+    "Mean_Causal_Effect": 0.2969486
+  },
+  {
+    "Pair": "Veillonellaceae->Marinilabiliaceae",
+    "Mean_Causal_Effect": 0.2869795
+  },
+  {
+    "Pair": "pyroglutamine*->trigonelline (N'-methylnicotinate)",
+    "Mean_Causal_Effect": 0.2744911
+  },
+  {
+    "Pair": "salicylate->Prob_Class_1",
+    "Mean_Causal_Effect": -0.2673484
+  },
+  {
+    "Pair": "Prevotellaceae->Veillonellaceae",
+    "Mean_Causal_Effect": 0.2619960
+  },
+  {
+    "Pair": "valine betaine->salicylate",
+    "Mean_Causal_Effect": 0.2606827
+  },
+  {
+    "Pair": "tricarballylate->stearate (18:0)",
+    "Mean_Causal_Effect": 0.2575495
+  },
+  {
+    "Pair": "Prevotellaceae->Marinilabiliaceae",
+    "Mean_Causal_Effect": 0.2487786
+  },
+  {
+    "Pair": "Dysgonomonadaceae->valine betaine",
+    "Mean_Causal_Effect": 0.2403985
+  },
+  {
+    "Pair": "tyrosine->sphingosine",
+    "Mean_Causal_Effect": 0.2329765
+  },
+  {
+    "Pair": "Pasteurellaceae->valylglutamine",
+    "Mean_Causal_Effect": 0.2274782
+  },
+  {
+    "Pair": "Bacteroidaceae->Streptococcaceae",
+    "Mean_Causal_Effect": 0.2273553
+  },
+  {
+    "Pair": "Spirosomaceae->Muribaculaceae",
+    "Mean_Causal_Effect": 0.2204694
+  },
+  {
+    "Pair": "Muribaculaceae->Rikenellaceae",
+    "Mean_Causal_Effect": 0.2087298
+  },
+  {
+    "Pair": "stearate (18:0)->Prob_Class_1",
+    "Mean_Causal_Effect": 0.1992715
+  },
+  {
+    "Pair": "Erysipelotrichaceae->ursodeoxycholate sulfate (1)",
+    "Mean_Causal_Effect": 0.1962626
+  },
+  {
+    "Pair": "serotonin->Prob_Class_1",
+    "Mean_Causal_Effect": -0.1944020
+  },
+  {
+    "Pair": "Neisseriaceae->Prob_Class_1",
+    "Mean_Causal_Effect": -0.1918155
+  },
+  {
+    "Pair": "tricarballylate->succinimide",
+    "Mean_Causal_Effect": -0.1872626
+  },
+  {
+    "Pair": "valylglutamine->tyrosine",
+    "Mean_Causal_Effect": 0.1820804
+  },
+  {
+    "Pair": "Prevotellaceae->serotonin",
+    "Mean_Causal_Effect": 0.1800211
+  },
+  {
+    "Pair": "Melioribacteraceae->Prob_Class_1",
+    "Mean_Causal_Effect": 0.1652053
+  },
+  {
+    "Pair": "succinimide->salicylate",
+    "Mean_Causal_Effect": 0.1515632
+  },
+  {
+    "Pair": "trigonelline (N'-methylnicotinate)->serotonin",
+    "Mean_Causal_Effect": 0.1493734
+  },
+  {
+    "Pair": "Streptococcaceae->Prob_Class_1",
+    "Mean_Causal_Effect": -0.1464840
+  },
+  {
+    "Pair": "Microviridae->Rikenellaceae",
+    "Mean_Causal_Effect": 0.1422480
+  },
+  {
+    "Pair": "sphingosine->salicylate",
+    "Mean_Causal_Effect": 0.1407496
+  },
+  {
+    "Pair": "ursodeoxycholate sulfate (1)->stearate (18:0)",
+    "Mean_Causal_Effect": -0.1406521
+  },
+  {
+    "Pair": "Pasteurellaceae->Neisseriaceae",
+    "Mean_Causal_Effect": 0.1356353
+  },
+  {
+    "Pair": "Bifidobacteriaceae->xanthosine",
+    "Mean_Causal_Effect": -0.1122378
+  },
+  {
+    "Pair": "theobromine->stearate (18:0)",
+    "Mean_Causal_Effect": -0.1100233
+  },
+  {
+    "Pair": "theobromine->sphingosine",
+    "Mean_Causal_Effect": 0.1037501
+  }
+]

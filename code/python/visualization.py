@@ -52,9 +52,9 @@ def plot_importance_table(global_importance, top_n=20, figsize=(10, 8), save_pat
 
 def visualize_causal_graph(json_data, target_node="Prob_Class_1", 
                          min_effect_threshold=0.0, layout_seed=42, 
-                         filter_target_paths=True, figsize=(20, 16),
-                         node_size_factor=1.0, edge_width_factor=1.0,
-                         edge_curvature=0.2, layout_type="kamada_kawai"):
+                         filter_target_paths=True, figsize=(10, 8),
+                         node_size_factor=0.7, edge_width_factor=1.0,
+                         edge_curvature=0.1, layout_type="shell"):
     """
     Visualize a causal graph from JSON data containing causal relationships.
     
@@ -88,6 +88,13 @@ def visualize_causal_graph(json_data, target_node="Prob_Class_1",
     stats : dict
         Dictionary containing graph statistics
     """
+    # Set professional font for IEEE publication
+    plt.rcParams.update({
+        'font.family': 'serif',
+        'font.serif': ['Times New Roman'],
+        'font.size': 10
+    })
+    
     # Load the data - either from file or use the provided list
     if isinstance(json_data, str):
         with open(json_data, 'r') as f:
@@ -168,10 +175,6 @@ def visualize_causal_graph(json_data, target_node="Prob_Class_1",
     if target_node in G.nodes():
         pos[target_node] = np.array([0.5, -0.8])
     
-    # Custom colormap for edge colors (blue for negative, red for positive effects)
-    colors = ["blue", "white", "red"]
-    cmap = LinearSegmentedColormap.from_list("custom_cmap", colors, N=100)
-    
     # Get weight range for normalization
     weights = [G[u][v]['weight'] for u, v in G.edges()]
     min_weight = min(weights) if weights else 0
@@ -179,38 +182,43 @@ def visualize_causal_graph(json_data, target_node="Prob_Class_1",
     abs_max_weight = max(abs(min_weight), abs(max_weight)) if weights else 1
     
     # Create figure
-    plt.figure(figsize=figsize)
+    plt.figure(figsize=figsize, facecolor='white')
     
-    # Draw nodes with different styles for different types (with larger sizes)
-    # Scale node sizes with the node_size_factor parameter (much larger base sizes)
+    # Professional IEEE color scheme
+    # Draw nodes with different styles for different types
     if node_groups['target']:
         nx.draw_networkx_nodes(G, pos, 
                              nodelist=node_groups['target'], 
-                             node_color='gold', 
-                             node_size=5000 * node_size_factor,  # Much larger size
+                             node_color='#4472C4',  # IEEE blue
+                             node_size=4000 * node_size_factor,
                              alpha=0.9,
-                             node_shape='s')  # Square for target
+                             node_shape='s',  # Square for target
+                             edgecolors='#2F528F')  # Darker blue outline
     
     if node_groups['direct_causes']:
         nx.draw_networkx_nodes(G, pos, 
                              nodelist=node_groups['direct_causes'], 
-                             node_color='lightgreen', 
-                             node_size=3500 * node_size_factor,  # Much larger size
+                             node_color='#70AD47',  # Professional green
+                             node_size=3000 * node_size_factor,
                              alpha=0.8,
-                             node_shape='o')  # Circle for direct causes
+                             node_shape='o',  # Circle for direct causes
+                             edgecolors='#507E32')  # Darker green outline
     
     if node_groups['other_nodes']:
         nx.draw_networkx_nodes(G, pos, 
                              nodelist=node_groups['other_nodes'], 
-                             node_color='lightblue', 
-                             node_size=2500 * node_size_factor,  # Much larger size
+                             node_color='#A5A5A5',  # Professional gray
+                             node_size=2000 * node_size_factor,
                              alpha=0.7,
-                             node_shape='o')  # Circle for other nodes
+                             node_shape='o',  # Circle for other nodes
+                             edgecolors='#7F7F7F')  # Darker gray outline
     
-    # Create a custom diverging colormap for the edges (blue -> white -> red)
+    # Create a custom professional colormap for the edges
     edge_cmap = LinearSegmentedColormap.from_list(
-        "blue_white_red", 
-        [(0, 'navy'), (0.25, 'royalblue'), (0.5, 'white'), (0.75, 'firebrick'), (1.0, 'darkred')], 
+        "professional", 
+        [(0, '#2F5597'),    # Dark blue for negative
+         (0.5, '#E7E6E6'),  # Light gray for neutral
+         (1.0, '#C55A11')], # Dark orange for positive
         N=100
     )
     
@@ -218,12 +226,11 @@ def visualize_causal_graph(json_data, target_node="Prob_Class_1",
     for u, v, data in G.edges(data=True):
         weight = data['weight']
         
-        # Normalize weight for color intensity (-1 to 1 range)
-        # Transform from [-max_weight, +max_weight] to [0, 1]
-        norm_weight = (weight / abs_max_weight * 0.5) + 0.5  # 0 = most negative, 0.5 = neutral, 1 = most positive
+        # Normalize weight for color intensity
+        norm_weight = (weight / abs_max_weight * 0.5) + 0.5
         
-        # Determine edge width based on absolute weight (thicker) and scale by factor
-        width = (1.5 + 6 * (abs(weight) / abs_max_weight)) * edge_width_factor
+        # Determine edge width based on absolute weight
+        width = (1.0 + 4 * (abs(weight) / abs_max_weight)) * edge_width_factor
         
         # Draw the edge
         nx.draw_networkx_edges(G, pos, 
@@ -232,62 +239,64 @@ def visualize_causal_graph(json_data, target_node="Prob_Class_1",
                               alpha=0.8,
                               edge_color=[edge_cmap(norm_weight)],
                               arrows=True,
-                              arrowsize=30,  # Even larger arrowheads
-                              arrowstyle='-|>')
+                              arrowsize=20,  # Professional sized arrowheads
+                              arrowstyle='-|>',
+                              connectionstyle=f'arc3,rad={edge_curvature}')
     
     # Add edge labels for direct effects to target with adjusted positions for curved edges
     if target_node in G.nodes():
         direct_edges = [(u, v) for u, v in G.edges() if v == target_node]
         edge_labels = {(u, v): f"{G[u][v]['weight']:.2f}" for u, v in direct_edges}
         
-        # Draw the edge labels - without using custom positioning which causes errors
         if edge_curvature == 0:
-            # For straight edges, use default positioning
-            nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels, font_size=12)
+            nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels, font_size=9, font_family='serif')
         else:
-            # For curved edges, use a fixed label position at 0.4 (slightly before midpoint)
-            nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels, font_size=12, label_pos=0.4)
+            nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels, font_size=9, label_pos=0.4, font_family='serif')
     
-    # Draw labels with larger font sizes
+    # Draw labels with appropriate font sizes
     if node_groups['target']:
         nx.draw_networkx_labels(G, pos, 
                                labels={n: n for n in node_groups['target']}, 
-                               font_size=18, 
-                               font_weight='bold')
+                               font_size=12, 
+                               font_weight='bold',
+                               font_family='serif')
     
     if node_groups['direct_causes']:
         nx.draw_networkx_labels(G, pos, 
                                labels={n: n for n in node_groups['direct_causes']}, 
-                               font_size=14)
+                               font_size=10,
+                               font_family='serif')
     
     if node_groups['other_nodes']:
         nx.draw_networkx_labels(G, pos, 
                                labels={n: n for n in node_groups['other_nodes']}, 
-                               font_size=12)
+                               font_size=8,
+                               font_family='serif')
     
-    # Add a simplified legend for node types
+    # Add a professional legend for node types
     legend_elements = [
-        plt.Line2D([0], [0], marker='s', color='w', markerfacecolor='gold', markersize=20, 
+        plt.Line2D([0], [0], marker='s', color='w', markerfacecolor='#4472C4', markersize=10, 
                  label=f'Target ({target_node})') if node_groups['target'] else None,
-        plt.Line2D([0], [0], marker='o', color='w', markerfacecolor='lightgreen', markersize=15, 
-                 label='Direct Causes') if node_groups['direct_causes'] else None,
-        plt.Line2D([0], [0], marker='o', color='w', markerfacecolor='lightblue', markersize=10, 
-                 label='Other Factors') if node_groups['other_nodes'] else None,
-        plt.Line2D([0], [0], color='darkred', lw=3, 
-                    label='Positive Causal Effect'),
-        plt.Line2D([0], [0], color='navy', lw=3, 
-                    label='Negative Causal Effect'),
-    
+        plt.Line2D([0], [0], marker='o', color='w', markerfacecolor='#70AD47', markersize=8, 
+                 label='Direct Causal Factors') if node_groups['direct_causes'] else None,
+        plt.Line2D([0], [0], marker='o', color='w', markerfacecolor='#A5A5A5', markersize=8, 
+                 label='Indirect Factors') if node_groups['other_nodes'] else None,
+        plt.Line2D([0], [0], color='#C55A11', lw=2, 
+                  label='Positive Causal Effect'),
+        plt.Line2D([0], [0], color='#2F5597', lw=2, 
+                  label='Negative Causal Effect'),
     ]
     
     # Filter out None values
     legend_elements = [e for e in legend_elements if e is not None]
     
     if legend_elements:
-        plt.legend(handles=legend_elements, loc='upper right', fontsize=14, framealpha=0.9)
+        plt.legend(handles=legend_elements, loc='upper right', fontsize=9, framealpha=0.9, 
+                  edgecolor='#D9D9D9')
     
     # Add title
-    plt.title(f'Causal Graph with Path to {target_node}', fontsize=20, pad=20)
+    # plt.title('Causation Network Analysis of Bacterial Species and\nMetabolites in IBS', 
+    #          fontsize=14, font='serif', fontweight='bold', pad=20)
     plt.axis('off')
     
     # Get graph statistics
@@ -305,7 +314,7 @@ def visualize_causal_graph(json_data, target_node="Prob_Class_1",
         'direct_effects': direct_effects
     }
     
-    # Add summary statistics as text with a cleaner look
+    # Add summary statistics as text with a professional look
     plt.figtext(0.01, 0.01, 
                f"Graph Statistics:\n"
                f"Total Nodes: {stats['total_nodes']}\n"
@@ -313,9 +322,10 @@ def visualize_causal_graph(json_data, target_node="Prob_Class_1",
                f"Direct Causes: {stats['direct_causes_count']}\n"
                f"Max Positive Effect: {stats['max_positive_effect']:.3f}\n"
                f"Max Negative Effect: {stats['max_negative_effect']:.3f}", 
-               fontsize=14, 
+               fontsize=8, 
+               font='serif',
                bbox=dict(facecolor='white', alpha=0.9, boxstyle='round,pad=0.5', 
-                       edgecolor='gray', linewidth=0.5))
+                       edgecolor='#D9D9D9', linewidth=0.5))
     
     plt.tight_layout()
     
@@ -326,7 +336,6 @@ def visualize_causal_graph(json_data, target_node="Prob_Class_1",
             print(f"{node}: {effect:.4f}")
     
     return G, stats
-
 
 def get_causal_paths(G, source, target, max_length=None):
     """

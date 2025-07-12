@@ -1,20 +1,23 @@
 library(readxl)
 library(pcalg)
 library(igraph)
+library(graph)
 
 # ------------------------- Data Loading and Preparation -------------------------
-dataset <- read_xlsx("C:/Users/snorl/Desktop/FYP/dataset/IBS_species/Predicted_Probabilites_PRJNA644520_class_pivoted.xlsx")
+dataset <- read_xlsx("C:/Users/snorl/Desktop/FYP/dataset/IBS_species/Predicted_Probabilites_PRJNA789106_genus_pivoted.xlsx")
 
-X_columns <- c('Clostridia', 'Erysipelotrichia' ,'Bacilli', 'Bacteroidia',
-               'Gammaproteobacteria', 'Coriobacteriia' ,'Mammalia', 'Betaproteobacteria',
-               'Actinobacteria', 'Alphaproteobacteria', 'Fusobacteriia', 'Chitinophagia',
-               'Cytophagia' ,'Chlamydiia', 'Spirochaetia' ,'Epsilonproteobacteria',
-               'Deltaproteobacteria', 'Magnoliopsida', 'Flavobacteriia', 'Methanobacteria',
-               'Negativicutes','Prob_Class_1')
+X_columns <- c('Collinsella', 'Bacteroides' ,'Ruthenibacterium', 'Lactobacillus',
+               'Faecalibacterium', 'Prevotella', 'Akkermansia', 'Oscillibacter',
+               'Anaerotruncus' ,'Odoribacter', 'Lachnoclostridium', 'Butyricimonas',
+               'Porphyromonas' ,'Hungatella' ,'Flavonifractor', 'Alistipes',
+               'Parabacteroides', 'Anaerobutyricum' ,'Dorea', 'Bifidobacterium',
+               'Fusicatenibacter', 'Leptotrichia', 'Gemella', 'Intestinimonas',
+               'Fusobacterium', 'Coprococcus' ,'Tyzzerella', 'Eisenbergiella',
+               'Anaerostipes', 'Paraprevotella','IBS')
 
 X_raw <- dataset[, X_columns]
 X <- scale(X_raw)
-Y <- dataset[["Prob_Class_1"]]
+Y <- dataset[["IBS"]]
 
 if (!all(sapply(X, is.numeric))) {
   stop("All columns in X must be numeric for correlation computation.")
@@ -23,7 +26,7 @@ if (!all(sapply(X, is.numeric))) {
 # ------------------------- PC Algorithm -------------------------
 
 suffStat <- list(C = cor(X), n = nrow(X)) 
-alpha <- 0.10
+alpha <- 0.06
 var_names <- colnames(X)
 
 pc_result <- pc(
@@ -102,7 +105,7 @@ build_graph_from_ida <- function(ida_results_df, var_names) {
     y <- pair[2]
     g <- add_edges(g, c(x, y))
   }
-  g <- simplify(g, remove.multiple = TRUE, remove.loops = TRUE)
+  g <- simplify(g)
   return(g)
 }
 
@@ -126,9 +129,21 @@ find_all_paths_to_target <- function(graph, target) {
 
 create_subgraph_for_target <- function(graph, all_paths) {
   unique_nodes <- unique(unlist(lapply(all_paths, unlist)))
-  subgraph <- induced_subgraph(graph, vids = unique_nodes)
-  simplified_subgraph <- simplify(subgraph, remove.multiple = TRUE, remove.loops = TRUE)
-  return(simplified_subgraph)
+  
+  # Get all edges in the original graph
+  all_edges <- as_edgelist(graph)
+  
+  # Filter edges to only include those between the unique nodes
+  filtered_edges <- all_edges[all_edges[,1] %in% unique_nodes & all_edges[,2] %in% unique_nodes, , drop = FALSE]
+  
+  # Create new graph from filtered edges
+  if(nrow(filtered_edges) > 0) {
+    subgraph <- graph_from_edgelist(filtered_edges, directed = TRUE)
+  } else {
+    subgraph <- make_empty_graph(directed = TRUE)
+  }
+  
+  return(subgraph)
 }
 
 print_paths_to_target <- function(all_paths, target_node) {
@@ -141,7 +156,7 @@ print_paths_to_target <- function(all_paths, target_node) {
   }
 }
 
-target_node <- "Prob_Class_1"
+target_node <- "IBS"
 all_paths_to_target <- find_all_paths_to_target(g, target_node)
 # print_paths_to_target(all_paths_to_target, target_node)
 
@@ -168,4 +183,303 @@ get_causal_effects_for_target <- function(subgraph, ida_results_mean_df) {
 target_causal_effects <- get_causal_effects_for_target(simplified_subgraph, ida_results_mean_df)
 cat("Edges with paths to", target_node, "and their causal strengths:\n\n")
 print(target_causal_effects)
+
+
+
+# -------------------- Visualization --------------------
+
+# Load required libraries
+library(igraph)
+library(ggraph)
+library(tidyverse)
+library(gridExtra)
+# Function to create and visualize causal network with fixed edge visibility
+plot_causal_network <- function(causal_effects_df, target_node = "IBS", 
+                                title = "Causal Network Leading to Target",
+                                layout_type = "fr") {
+  
+  # Parse the causal effects data
+  edges_df <- causal_effects_df %>%
+    separate(Pair, into = c("from", "to"), sep = "->", remove = FALSE) %>%
+    rename(weight = Mean_Causal_Effect) %>%
+    mutate(
+      abs_weight = abs(weight),
+      edge_type = ifelse(weight > 0, "positive", "negative"),
+      weight_category = cut(abs_weight, 
+                            breaks = c(0, 0.1, 0.3, 0.5, Inf),
+                            labels = c("weak", "moderate", "strong", "very_strong"))
+    )
+  
+  # Create nodes dataframe
+  all_nodes <- unique(c(edges_df$from, edges_df$to))
+  nodes_df <- data.frame(
+    name = all_nodes,
+    is_target = all_nodes == target_node,
+    stringsAsFactors = FALSE
+  )
+  
+  print(edges_df)
+  print(nodes_df)
+  
+  # Clean the data - remove any hidden characters/whitespace and ensure character type
+  edges_df$from <- as.character(trimws(edges_df$from))
+  edges_df$to <- as.character(trimws(edges_df$to))
+  nodes_df$name <- as.character(trimws(nodes_df$name))
+  
+  # Verify data types
+  cat("Edge data types - from:", class(edges_df$from), "to:", class(edges_df$to), "\n")
+  cat("Node data type - name:", class(nodes_df$name), "\n")
+  
+  # Double check for exact matches
+  edge_nodes <- unique(c(edges_df$from, edges_df$to))
+  missing_in_vertices <- setdiff(edge_nodes, nodes_df$name)
+  if(length(missing_in_vertices) > 0) {
+    cat("Still missing nodes:\n")
+    print(missing_in_vertices)
+    # Add them manually
+    additional_nodes <- data.frame(
+      name = missing_in_vertices,
+      is_target = missing_in_vertices == target_node,
+      stringsAsFactors = FALSE
+    )
+    nodes_df <- rbind(nodes_df, additional_nodes)
+  }
+  
+  # Create igraph object
+  edge_matrix <- as.matrix(edges_df[, c("from", "to")])
+  
+  # Create graph from edge list (this method is more reliable)
+  g <- graph_from_edgelist(edge_matrix, directed = TRUE)
+  
+  # Add edge attributes
+  E(g)$weight <- edges_df$weight
+  E(g)$abs_weight <- edges_df$abs_weight
+  E(g)$edge_type <- edges_df$edge_type
+  E(g)$weight_category <- edges_df$weight_category
+  
+  # Add vertex attributes
+  V(g)$is_target <- V(g)$name == target_node
+  
+  # Create the plot using ggraph
+  p <- ggraph(g, layout = layout_type) +
+    # Add edges with different styles based on effect direction and strength
+    # FIXED: Removed edge_alpha mapping to make edges always visible
+    geom_edge_link(aes(
+      edge_width = abs_weight,
+      edge_color = weight,
+      linetype = edge_type
+    ), 
+    alpha = 0.8,  # Fixed alpha value for all edges
+    arrow = arrow(length = unit(3, 'mm'), type = "closed"),
+    start_cap = circle(3, 'mm'),
+    end_cap = circle(3, 'mm'),
+    show.legend = TRUE) +
+    
+    # Style the edges
+    scale_edge_width(name = "Effect Strength", range = c(0.5, 2.5)) +  # Increased minimum width
+    scale_edge_color_gradient2(
+      name = "Effect Direction",
+      low = "red", mid = "grey", high = "blue",
+      midpoint = 0,
+      guide = guide_edge_colorbar()
+    ) +
+    scale_edge_linetype_manual(
+      name = "Effect Type",
+      values = c("positive" = "solid", "negative" = "dashed")
+    ) +
+    
+    # Add nodes with different colors for target vs other nodes
+    geom_node_point(aes(
+      color = is_target,
+      shape = is_target
+    ), size = 6) +  # Fixed size for all nodes
+    
+    # Style the nodes
+    scale_color_manual(
+      name = "Node Type",
+      values = c("TRUE" = "red", "FALSE" = "lightblue"),
+      labels = c("TRUE" = "Target", "FALSE" = "Feature")
+    ) +
+    scale_shape_manual(
+      name = "Node Type",
+      values = c("TRUE" = 17, "FALSE" = 16),  # Triangle for target, circle for others
+      labels = c("TRUE" = "Target", "FALSE" = "Feature")
+    ) +
+    
+    # Add node labels
+    geom_node_text(aes(label = name), 
+                   repel = TRUE, 
+                   size = 3.5,  # Slightly larger text
+                   max.overlaps = 50,
+                   box.padding = 0.3) +
+    
+    # Customize the plot
+    labs(title = title) +
+    theme_void() +
+    theme(
+      plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),
+      legend.position = "right",
+      legend.box = "vertical",
+      legend.title = element_text(size = 10, face = "bold"),
+      legend.text = element_text(size = 8)
+    ) +
+    
+    # Arrange legends (removed node degree and edge_alpha guides)
+    guides(
+      edge_width = guide_legend(order = 1),
+      edge_color = guide_edge_colorbar(order = 2),
+      edge_linetype = guide_legend(order = 3),
+      color = guide_legend(order = 4),
+      shape = guide_legend(order = 5)
+    )
+  
+  return(p)
+}
+
+# Alternative version with manual alpha scaling if you want to keep magnitude-based transparency
+plot_causal_network_with_scaled_alpha <- function(causal_effects_df, target_node = "IBS", 
+                                                  title = "Causal Network Leading to Target",
+                                                  layout_type = "fr") {
+  
+  # Parse the causal effects data
+  edges_df <- causal_effects_df %>%
+    separate(Pair, into = c("from", "to"), sep = "->", remove = FALSE) %>%
+    rename(weight = Mean_Causal_Effect) %>%
+    mutate(
+      abs_weight = abs(weight),
+      edge_type = ifelse(weight > 0, "positive", "negative"),
+      # Scale alpha manually to ensure visibility (min 0.5, max 1.0)
+      scaled_alpha = pmax(0.5, pmin(1.0, 0.5 + (abs_weight / max(abs_weight, na.rm = TRUE)) * 0.5)),
+      weight_category = cut(abs_weight, 
+                            breaks = c(0, 0.1, 0.3, 0.5, Inf),
+                            labels = c("weak", "moderate", "strong", "very_strong"))
+    )
+  
+  # Create nodes dataframe
+  all_nodes <- unique(c(edges_df$from, edges_df$to))
+  nodes_df <- data.frame(
+    name = all_nodes,
+    is_target = all_nodes == target_node,
+    stringsAsFactors = FALSE
+  )
+  
+  # Clean the data
+  edges_df$from <- as.character(trimws(edges_df$from))
+  edges_df$to <- as.character(trimws(edges_df$to))
+  nodes_df$name <- as.character(trimws(nodes_df$name))
+  
+  # Handle missing nodes
+  edge_nodes <- unique(c(edges_df$from, edges_df$to))
+  missing_in_vertices <- setdiff(edge_nodes, nodes_df$name)
+  if(length(missing_in_vertices) > 0) {
+    additional_nodes <- data.frame(
+      name = missing_in_vertices,
+      is_target = missing_in_vertices == target_node,
+      stringsAsFactors = FALSE
+    )
+    nodes_df <- rbind(nodes_df, additional_nodes)
+  }
+  
+  # Create igraph object
+  edge_matrix <- as.matrix(edges_df[, c("from", "to")])
+  g <- graph_from_edgelist(edge_matrix, directed = TRUE)
+  
+  # Add edge attributes
+  E(g)$weight <- edges_df$weight
+  E(g)$abs_weight <- edges_df$abs_weight
+  E(g)$edge_type <- edges_df$edge_type
+  E(g)$scaled_alpha <- edges_df$scaled_alpha
+  
+  # Add vertex attributes
+  V(g)$is_target <- V(g)$name == target_node
+  
+  # Create the plot using ggraph
+  p <- ggraph(g, layout = layout_type) +
+    # Add edges with scaled alpha that ensures visibility
+    geom_edge_link(aes(
+      edge_width = abs_weight,
+      edge_color = weight,
+      edge_alpha = scaled_alpha,  # Use pre-scaled alpha
+      linetype = edge_type
+    ), 
+    arrow = arrow(length = unit(3, 'mm'), type = "closed"),
+    start_cap = circle(3, 'mm'),
+    end_cap = circle(3, 'mm'),
+    show.legend = TRUE) +
+    
+    # Style the edges
+    scale_edge_width(name = "Effect Strength", range = c(0.5, 2.5)) +
+    scale_edge_color_gradient2(
+      name = "Effect Direction",
+      low = "red", mid = "grey", high = "blue",
+      midpoint = 0,
+      guide = guide_edge_colorbar()
+    ) +
+    scale_edge_alpha_identity(name = "Effect Magnitude") +  # Use identity scale for pre-scaled alpha
+    scale_edge_linetype_manual(
+      name = "Effect Type",
+      values = c("positive" = "solid", "negative" = "dashed")
+    ) +
+    
+    # Add nodes
+    geom_node_point(aes(
+      color = is_target,
+      shape = is_target
+    ), size = 6) +  # Fixed size for all nodes
+    
+    # Style the nodes
+    scale_color_manual(
+      name = "Node Type",
+      values = c("TRUE" = "red", "FALSE" = "lightblue"),
+      labels = c("TRUE" = "Target", "FALSE" = "Feature")
+    ) +
+    scale_shape_manual(
+      name = "Node Type",
+      values = c("TRUE" = 17, "FALSE" = 16),
+      labels = c("TRUE" = "Target", "FALSE" = "Feature")
+    ) +
+    
+    # Add node labels
+    geom_node_text(aes(label = name), 
+                   repel = TRUE, 
+                   size = 3.5,
+                   max.overlaps = 50,
+                   box.padding = 0.3,
+                   family = "Times New Roman") +
+    
+    # Customize the plot
+    labs(title = title) +
+    theme_void(base_family = "Times New Roman") +
+    theme(
+      plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),
+      legend.position = "right",
+      legend.box = "vertical",
+      legend.title = element_text(size = 10, face = "bold", family = "Times New Roman"),
+      legend.text = element_text(size = 8, family = "Serif")
+    )
+  
+  return(p)
+}
+
+# Usage - replace your existing function calls with these:
+
+# Version 1: Fixed alpha (recommended for clarity)
+causal_network_plot <- plot_causal_network(
+  target_causal_effects, 
+  target_node = "IBS",
+  title = "Causal Network Leading to IBS Classification",
+  layout_type = "dh"
+)
+
+# Version 2: Scaled alpha (if you want to keep magnitude-based transparency)
+causal_network_plot_scaled <- plot_causal_network_with_scaled_alpha(
+  target_causal_effects, 
+  target_node = "IBS",
+  title = "Causal Network Leading to IBS Classification",
+  layout_type = "dh"
+)
+
+print(causal_network_plot)
+print(causal_network_plot_scaled)
+
 

@@ -1,0 +1,402 @@
+[
+  {
+    "Pair": "Blautia->Dorea",
+    "Mean_Causal_Effect": 0.7317915
+  },
+  {
+    "Pair": "Blautia->Fusicatenibacter",
+    "Mean_Causal_Effect": 0.7096071
+  },
+  {
+    "Pair": "valylglutamine->tryptophylglycine",
+    "Mean_Causal_Effect": 0.6331342
+  },
+  {
+    "Pair": "Erysipelatoclostridium->Enterocloster",
+    "Mean_Causal_Effect": 0.6085379
+  },
+  {
+    "Pair": "Anaerotruncus->Ruthenibacterium",
+    "Mean_Causal_Effect": 0.5875704
+  },
+  {
+    "Pair": "Enterocloster->Eisenbergiella",
+    "Mean_Causal_Effect": 0.5662325
+  },
+  {
+    "Pair": "Bacteroides->Lachnoclostridium",
+    "Mean_Causal_Effect": 0.5560389
+  },
+  {
+    "Pair": "Capnocytophaga->Oribacterium",
+    "Mean_Causal_Effect": 0.5446843
+  },
+  {
+    "Pair": "Faecalicatena->Acetivibrio",
+    "Mean_Causal_Effect": 0.5367831
+  },
+  {
+    "Pair": "Blautia->Gemmiger",
+    "Mean_Causal_Effect": 0.5302046
+  },
+  {
+    "Pair": "Blautia->Anaerotignum",
+    "Mean_Causal_Effect": 0.5285077
+  },
+  {
+    "Pair": "Eubacterium->Anaerotignum",
+    "Mean_Causal_Effect": 0.5194579
+  },
+  {
+    "Pair": "Bacteroides->Faecalibacterium",
+    "Mean_Causal_Effect": 0.5125253
+  },
+  {
+    "Pair": "Lachnoclostridium->Ruthenibacterium",
+    "Mean_Causal_Effect": 0.5091545
+  },
+  {
+    "Pair": "ribitol->thymine",
+    "Mean_Causal_Effect": 0.4964096
+  },
+  {
+    "Pair": "Eubacterium->Dorea",
+    "Mean_Causal_Effect": 0.4906088
+  },
+  {
+    "Pair": "Eubacterium->Fusicatenibacter",
+    "Mean_Causal_Effect": 0.4898393
+  },
+  {
+    "Pair": "Erysipelatoclostridium->Ruthenibacterium",
+    "Mean_Causal_Effect": 0.4862343
+  },
+  {
+    "Pair": "Blautia->Lachnoclostridium",
+    "Mean_Causal_Effect": 0.4849387
+  },
+  {
+    "Pair": "Bacteroides->Faecalicatena",
+    "Mean_Causal_Effect": 0.4749854
+  },
+  {
+    "Pair": "Eubacterium->Faecalibacterium",
+    "Mean_Causal_Effect": 0.4680660
+  },
+  {
+    "Pair": "xylose->salicylate",
+    "Mean_Causal_Effect": 0.4640242
+  },
+  {
+    "Pair": "Dorea->Faecalibacterium",
+    "Mean_Causal_Effect": 0.4609498
+  },
+  {
+    "Pair": "Blautia->Oribacterium",
+    "Mean_Causal_Effect": 0.4577031
+  },
+  {
+    "Pair": "Anaerotignum->Acetivibrio",
+    "Mean_Causal_Effect": 0.4206710
+  },
+  {
+    "Pair": "Intestinibacter->Faecalibacterium",
+    "Mean_Causal_Effect": 0.4133015
+  },
+  {
+    "Pair": "Prevotella->Dorea",
+    "Mean_Causal_Effect": 0.4111214
+  },
+  {
+    "Pair": "Sinsheimervirus->Prob_Class_1",
+    "Mean_Causal_Effect": 0.3955144
+  },
+  {
+    "Pair": "Bacteroides->Anaerotignum",
+    "Mean_Causal_Effect": 0.3906388
+  },
+  {
+    "Pair": "xylose->Prob_Class_1",
+    "Mean_Causal_Effect": -0.3775701
+  },
+  {
+    "Pair": "Dorea->Fusicatenibacter",
+    "Mean_Causal_Effect": 0.3626142
+  },
+  {
+    "Pair": "xanthosine->trigonelline (N'-methylnicotinate)",
+    "Mean_Causal_Effect": 0.3613130
+  },
+  {
+    "Pair": "Collinsella->Anaerotruncus",
+    "Mean_Causal_Effect": 0.3566901
+  },
+  {
+    "Pair": "Intestinibacter->Lachnoclostridium",
+    "Mean_Causal_Effect": 0.3543390
+  },
+  {
+    "Pair": "valine betaine->Prob_Class_1",
+    "Mean_Causal_Effect": -0.3423370
+  },
+  {
+    "Pair": "Sinsheimervirus->Eubacterium",
+    "Mean_Causal_Effect": -0.3335397
+  },
+  {
+    "Pair": "Eubacterium->Oribacterium",
+    "Mean_Causal_Effect": 0.3328579
+  },
+  {
+    "Pair": "Collinsella->Faecalibacterium",
+    "Mean_Causal_Effect": 0.3267065
+  },
+  {
+    "Pair": "Faecalicatena->Coprococcus",
+    "Mean_Causal_Effect": 0.3249271
+  },
+  {
+    "Pair": "Eubacterium->Niabella",
+    "Mean_Causal_Effect": 0.3197096
+  },
+  {
+    "Pair": "Intestinibacter->Gemmiger",
+    "Mean_Causal_Effect": 0.3098242
+  },
+  {
+    "Pair": "xylose->sphingosine",
+    "Mean_Causal_Effect": 0.3056442
+  },
+  {
+    "Pair": "Enterocloster->Blautia",
+    "Mean_Causal_Effect": 0.2886946
+  },
+  {
+    "Pair": "Frisingicoccus->Oribacterium",
+    "Mean_Causal_Effect": 0.2859455
+  },
+  {
+    "Pair": "Odoribacter->Faecalibacterium",
+    "Mean_Causal_Effect": 0.2842415
+  },
+  {
+    "Pair": "Enterocloster->Bacteroides",
+    "Mean_Causal_Effect": 0.2825418
+  },
+  {
+    "Pair": "valine betaine->salicylate",
+    "Mean_Causal_Effect": 0.2800818
+  },
+  {
+    "Pair": "Sinsheimervirus->Fluviimonas",
+    "Mean_Causal_Effect": 0.2774855
+  },
+  {
+    "Pair": "Frisingicoccus->Lachnoclostridium",
+    "Mean_Causal_Effect": 0.2761246
+  },
+  {
+    "Pair": "pyroglutamine*->trigonelline (N'-methylnicotinate)",
+    "Mean_Causal_Effect": 0.2744911
+  },
+  {
+    "Pair": "Sinsheimervirus->Melioribacter",
+    "Mean_Causal_Effect": 0.2730582
+  },
+  {
+    "Pair": "Dysgonomonas->Niabella",
+    "Mean_Causal_Effect": 0.2726920
+  },
+  {
+    "Pair": "Eisenbergiella->Ruthenibacterium",
+    "Mean_Causal_Effect": 0.2647325
+  },
+  {
+    "Pair": "Niabella->valine betaine",
+    "Mean_Causal_Effect": 0.2642330
+  },
+  {
+    "Pair": "salicylate->Prob_Class_1",
+    "Mean_Causal_Effect": -0.2633084
+  },
+  {
+    "Pair": "Collinsella->Coprococcus",
+    "Mean_Causal_Effect": 0.2630358
+  },
+  {
+    "Pair": "Dysgonomonas->Prevotella",
+    "Mean_Causal_Effect": 0.2615601
+  },
+  {
+    "Pair": "Odoribacter->Collinsella",
+    "Mean_Causal_Effect": 0.2595480
+  },
+  {
+    "Pair": "Melioribacter->Fluviimonas",
+    "Mean_Causal_Effect": 0.2579047
+  },
+  {
+    "Pair": "tricarballylate->stearate (18:0)",
+    "Mean_Causal_Effect": 0.2575495
+  },
+  {
+    "Pair": "Dorea->Coprococcus",
+    "Mean_Causal_Effect": 0.2498689
+  },
+  {
+    "Pair": "Collinsella->Gemmiger",
+    "Mean_Causal_Effect": 0.2450923
+  },
+  {
+    "Pair": "Anaerotruncus->Odoribacter",
+    "Mean_Causal_Effect": 0.2445729
+  },
+  {
+    "Pair": "Anaerotignum->Faecalicatena",
+    "Mean_Causal_Effect": 0.2439921
+  },
+  {
+    "Pair": "Dysgonomonas->valine betaine",
+    "Mean_Causal_Effect": 0.2438790
+  },
+  {
+    "Pair": "Niabella->Fluviimonas",
+    "Mean_Causal_Effect": 0.2357206
+  },
+  {
+    "Pair": "tyrosine->sphingosine",
+    "Mean_Causal_Effect": 0.2329765
+  },
+  {
+    "Pair": "Anaerotruncus->Eisenbergiella",
+    "Mean_Causal_Effect": 0.2278379
+  },
+  {
+    "Pair": "Coprococcus->Niabella",
+    "Mean_Causal_Effect": 0.2272513
+  },
+  {
+    "Pair": "thymine->Prob_Class_1",
+    "Mean_Causal_Effect": -0.2270315
+  },
+  {
+    "Pair": "Collinsella->Niabella",
+    "Mean_Causal_Effect": 0.2242315
+  },
+  {
+    "Pair": "Gemmiger->Faecalicatena",
+    "Mean_Causal_Effect": 0.2229753
+  },
+  {
+    "Pair": "ursodeoxycholate sulfate (1)->tryptophylglycine",
+    "Mean_Causal_Effect": 0.2032703
+  },
+  {
+    "Pair": "stearate (18:0)->Prob_Class_1",
+    "Mean_Causal_Effect": 0.2024194
+  },
+  {
+    "Pair": "valylglutamine->tyrosine",
+    "Mean_Causal_Effect": 0.1992844
+  },
+  {
+    "Pair": "Ruthenibacterium->ursodeoxycholate sulfate (1)",
+    "Mean_Causal_Effect": 0.1990008
+  },
+  {
+    "Pair": "serotonin->Prob_Class_1",
+    "Mean_Causal_Effect": -0.1962449
+  },
+  {
+    "Pair": "Lachnoclostridium->Faecalibacterium",
+    "Mean_Causal_Effect": 0.1926314
+  },
+  {
+    "Pair": "tricarballylate->thymine",
+    "Mean_Causal_Effect": 0.1911424
+  },
+  {
+    "Pair": "tricarballylate->succinimide",
+    "Mean_Causal_Effect": -0.1872626
+  },
+  {
+    "Pair": "Sinsheimervirus->Niabella",
+    "Mean_Causal_Effect": 0.1811925
+  },
+  {
+    "Pair": "Fusicatenibacter->valylglutamine",
+    "Mean_Causal_Effect": 0.1765665
+  },
+  {
+    "Pair": "tryptophylglycine->Prob_Class_1",
+    "Mean_Causal_Effect": -0.1647882
+  },
+  {
+    "Pair": "Faecalibacterium->Prob_Class_1",
+    "Mean_Causal_Effect": -0.1647015
+  },
+  {
+    "Pair": "Lachnoclostridium->Faecalicatena",
+    "Mean_Causal_Effect": 0.1628687
+  },
+  {
+    "Pair": "Prevotella->serotonin",
+    "Mean_Causal_Effect": 0.1610261
+  },
+  {
+    "Pair": "Oribacterium->Fusicatenibacter",
+    "Mean_Causal_Effect": 0.1574459
+  },
+  {
+    "Pair": "Muribaculum->Fluviimonas",
+    "Mean_Causal_Effect": 0.1555833
+  },
+  {
+    "Pair": "succinimide->salicylate",
+    "Mean_Causal_Effect": 0.1515632
+  },
+  {
+    "Pair": "Acetivibrio->valylglutamine",
+    "Mean_Causal_Effect": 0.1500771
+  },
+  {
+    "Pair": "trigonelline (N'-methylnicotinate)->serotonin",
+    "Mean_Causal_Effect": 0.1493734
+  },
+  {
+    "Pair": "ursodeoxycholate sulfate (1)->stearate (18:0)",
+    "Mean_Causal_Effect": -0.1487183
+  },
+  {
+    "Pair": "Fluviimonas->Prob_Class_1",
+    "Mean_Causal_Effect": 0.1441953
+  },
+  {
+    "Pair": "sphingosine->salicylate",
+    "Mean_Causal_Effect": 0.1407496
+  },
+  {
+    "Pair": "Anaerotignum->Frisingicoccus",
+    "Mean_Causal_Effect": 0.1367900
+  },
+  {
+    "Pair": "Faecalibacterium->Fusicatenibacter",
+    "Mean_Causal_Effect": 0.1254219
+  },
+  {
+    "Pair": "theobromine->stearate (18:0)",
+    "Mean_Causal_Effect": -0.1100233
+  },
+  {
+    "Pair": "theobromine->sphingosine",
+    "Mean_Causal_Effect": 0.1037501
+  },
+  {
+    "Pair": "Melioribacter->valylglutamine",
+    "Mean_Causal_Effect": 0.1033610
+  },
+  {
+    "Pair": "Frisingicoccus->Melioribacter",
+    "Mean_Causal_Effect": 0.1030736
+  }
+]

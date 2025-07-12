@@ -1,0 +1,90 @@
+[
+    {
+      "Pair": "Blautia faecis->Blautia hydrogenotrophica",
+      "Mean_Causal_Effect": 1
+    },
+    {
+      "Pair": "Dorea formicigenerans->Ruthenibacterium lactatiformans",
+      "Mean_Causal_Effect": 1
+    },
+    {
+      "Pair": "Bacteroides stercoris->Blautia faecis",
+      "Mean_Causal_Effect": 1
+    },
+    {
+      "Pair": "Blautia faecis->Blautia wexlerae",
+      "Mean_Causal_Effect": 1
+    },
+    {
+      "Pair": "Blautia hydrogenotrophica->Parabacteroides goldsteinii",
+      "Mean_Causal_Effect": 1
+    },
+    {
+      "Pair": "Hungatella hathewayi->Blautia obeum",
+      "Mean_Causal_Effect": 1
+    },
+    {
+      "Pair": "Ruthenibacterium lactatiformans->Blautia faecis",
+      "Mean_Causal_Effect": 1
+    },
+    {
+      "Pair": "Dorea formicigenerans->Blautia obeum",
+      "Mean_Causal_Effect": 1
+    },
+    {
+      "Pair": "Hungatella hathewayi->Enterocloster aldenensis",
+      "Mean_Causal_Effect": 1
+    },
+    {
+      "Pair": "Blautia faecis->[Clostridium] viride",
+      "Mean_Causal_Effect": 1
+    },
+    {
+      "Pair": "Anaerotruncus colihominis->[Clostridium] viride",
+      "Mean_Causal_Effect": 1
+    },
+    {
+      "Pair": "Marvinbryantia formatexigens->Prevotella albensis",
+      "Mean_Causal_Effect": 1
+    },
+    {
+      "Pair": "Bacteroides stercoris->Enterocloster aldenensis",
+      "Mean_Causal_Effect": 1
+    },
+    {
+      "Pair": "Blautia obeum->Marvinbryantia formatexigens",
+      "Mean_Causal_Effect": 1
+    },
+    {
+      "Pair": "Bacteroides stercoris->Marvinbryantia formatexigens",
+      "Mean_Causal_Effect": 1
+    },
+    {
+      "Pair": "Parabacteroides goldsteinii->[Clostridium] viride",
+      "Mean_Causal_Effect": 1
+    },
+    {
+      "Pair": "Blautia faecis->Prevotella albensis",
+      "Mean_Causal_Effect": 1
+    },
+    {
+      "Pair": "Blautia hydrogenotrophica->Marvinbryantia formatexigens",
+      "Mean_Causal_Effect": 1
+    },
+    {
+      "Pair": "Marvinbryantia formatexigens->Blautia hydrogenotrophica",
+      "Mean_Causal_Effect": 1
+    },
+    {
+      "Pair": "Blautia obeum->Prevotella albensis",
+      "Mean_Causal_Effect": 1
+    },
+    {
+      "Pair": "[Clostridium] viride->Blautia obeum",
+      "Mean_Causal_Effect": 1
+    },
+    {
+      "Pair": "Hungatella hathewayi->Bacteroides stercoris",
+      "Mean_Causal_Effect": 1
+    }
+  ]
